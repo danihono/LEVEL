@@ -7,18 +7,18 @@ const Hero: React.FC = () => {
   const { t } = useLanguage();
   return (
     <section className="relative h-screen w-full flex items-center overflow-hidden bg-black">
-      {/* Background Image - Fullscreen focus */}
+      {/* Background Image - Restaurada para Unsplash para garantir visualização */}
       <div 
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.3] brightness-[0.4]"
         style={{ 
           backgroundImage: 'url("https://images.unsplash.com/photo-1552072092-7f9b8d63efcb?q=80&w=2070&auto=format&fit=crop")',
         }}
       >
         {/* Uniform Overlay for legibility */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         
         {/* Subtle left-to-right gradient to anchor text focus */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/30 to-transparent"></div>
       </div>
 
       {/* Content Container - Left Aligned */}
