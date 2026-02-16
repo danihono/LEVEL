@@ -1,0 +1,7 @@
+{
+  "name": "Level Jiu Jitsu - Premium Academy Network",
+  "description": "A high-end, cinematic website for the Level Jiu Jitsu network, featuring an editorial design, smooth interactions, and a clean minimalist aesthetic.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

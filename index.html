@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEVEL JIU JITSU | PREMIUM ACADEMY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --brand-yellow: #F7B500;
+        --brand-red: #E31E24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+        background-color: #030303;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+      
+      /* Névoa Cinematográfica Realista */
+      .smoke-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: #030303;
+        overflow: hidden;
+      }
+
+      .smoke-layer {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'), 
+                          radial-gradient(circle at center, rgba(30,30,30,0.4) 0%, transparent 70%);
+        opacity: 0.4;
+        filter: blur(60px);
+        animation: rotateSmoke 120s linear infinite;
+      }
+
+      .fog-overlay {
+        position: fixed;
+        inset: 0;
+        background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.07;
+        mix-blend-mode: screen;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes rotateSmoke {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Granulação de Filme */
+      .film-grain {
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .text-brand-orange { color: var(--brand-yellow); }
+      .bg-brand-orange { background-color: var(--brand-yellow); }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .hero-frame {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-left: 3px solid var(--brand-yellow);
+        background: linear-gradient(135deg, rgba(20,20,20,0.4) 0%, rgba(0,0,0,0.1) 100%);
+        backdrop-filter: blur(12px);
+      }
+
+      ::-webkit-scrollbar { width: 5px; }
+      ::-webkit-scrollbar-track { background: #030303; }
+      ::-webkit-scrollbar-thumb { background: var(--brand-yellow); }
+      
+      section { position: relative; z-index: 10; }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react": "https://esm.sh/react@^19.2.4",
+        "react/": "https://esm.sh/react@^19.2.4/"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div class="smoke-bg">
+      <div class="smoke-layer"></div>
+    </div>
+    <div class="fog-overlay"></div>
+    <div class="film-grain"></div>
+    <div id="root"></div>
+  </body>
+</html>
