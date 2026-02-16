@@ -4,32 +4,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LEVEL JIU JITSU | PREMIUM ACADEMY</title>
+    <title>LEVEL JIU JITSU | BLACK & GOLD EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;600;800&display=swap" rel="stylesheet">
     <style>
       :root {
-        --brand-yellow: #F7B500;
-        --brand-red: #E31E24;
+        --brand-gold: #C5A028;
+        --brand-gold-light: #F1D592;
+        --brand-gold-dark: #8B6D1B;
       }
       body {
         font-family: 'Manrope', sans-serif;
-        background-color: #030303;
+        background-color: #0b0b0b;
         color: #ffffff;
         overflow-x: hidden;
       }
       
-      /* Névoa Cinematográfica Realista */
       .smoke-bg {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -1;
-        background: #030303;
+        z-index: -2;
+        background: radial-gradient(circle at 50% 50%, #0f0f0f 0%, #0b0b0b 100%);
         overflow: hidden;
       }
 
@@ -39,47 +39,77 @@
         left: -50%;
         width: 200%;
         height: 200%;
-        background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'), 
-                          radial-gradient(circle at center, rgba(30,30,30,0.4) 0%, transparent 70%);
+        background-image: radial-gradient(circle at center, rgba(197, 160, 40, 0.05) 0%, transparent 70%);
         opacity: 0.4;
-        filter: blur(60px);
-        animation: rotateSmoke 120s linear infinite;
+        filter: blur(100px);
+        animation: rotateSmoke 240s linear infinite;
       }
 
-      .fog-overlay {
+      /* Sistema de Partículas de Elite */
+      .particles-container {
         position: fixed;
         inset: 0;
-        background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=2070&auto=format&fit=crop');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.07;
-        mix-blend-mode: screen;
+        z-index: -1; /* Atrás de tudo */
         pointer-events: none;
-        z-index: -1;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        filter: blur(0.3px);
+        animation: floatParticle linear infinite;
+        will-change: transform, opacity;
       }
 
       @keyframes rotateSmoke {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+        from { transform: rotate(0deg) scale(1); }
+        to { transform: rotate(360deg) scale(1.2); }
       }
 
-      /* Granulação de Filme */
+      @keyframes floatParticle {
+        0% { 
+          transform: translateY(0) translateX(0); 
+          opacity: 0; 
+        }
+        20% { 
+          opacity: 0.25; /* Opacidade máxima sutil */
+        }
+        80% { 
+          opacity: 0.15; 
+        }
+        100% { 
+          transform: translateY(-120vh) translateX(40px); 
+          opacity: 0; 
+        }
+      }
+
       .film-grain {
         position: fixed;
         inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.02;
         pointer-events: none;
         z-index: 50;
       }
 
-      .text-brand-orange { color: var(--brand-yellow); }
-      .bg-brand-orange { background-color: var(--brand-yellow); }
+      .text-brand-gold { 
+        background: linear-gradient(to bottom, var(--brand-gold-light) 0%, var(--brand-gold) 50%, var(--brand-gold-dark) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .bg-brand-gold { 
+        background: linear-gradient(135deg, var(--brand-gold-light) 0%, var(--brand-gold) 50%, var(--brand-gold-dark) 100%);
+      }
 
+      /* Reveal Suave de Luxo */
       .reveal {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(12px);
+        transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                    transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+        will-change: transform, opacity;
       }
       .reveal.active {
         opacity: 1;
@@ -87,17 +117,21 @@
       }
       
       .hero-frame {
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-left: 3px solid var(--brand-yellow);
-        background: linear-gradient(135deg, rgba(20,20,20,0.4) 0%, rgba(0,0,0,0.1) 100%);
-        backdrop-filter: blur(12px);
+        border: 1px solid rgba(197, 160, 40, 0.1);
+        border-left: 3px solid var(--brand-gold);
+        background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(10,10,10,0.4) 100%);
+        backdrop-filter: blur(20px);
       }
 
-      ::-webkit-scrollbar { width: 5px; }
-      ::-webkit-scrollbar-track { background: #030303; }
-      ::-webkit-scrollbar-thumb { background: var(--brand-yellow); }
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: #0b0b0b; }
+      ::-webkit-scrollbar-thumb { background: var(--brand-gold); }
       
       section { position: relative; z-index: 10; }
+
+      .gold-glow:hover {
+        box-shadow: 0 0 25px rgba(197, 160, 40, 0.25);
+      }
     </style>
     <script type="importmap">
     {
@@ -113,8 +147,42 @@
     <div class="smoke-bg">
       <div class="smoke-layer"></div>
     </div>
-    <div class="fog-overlay"></div>
+    <div class="particles-container" id="particles"></div>
     <div class="film-grain"></div>
     <div id="root"></div>
+
+    <script>
+      const container = document.getElementById('particles');
+      const count = 55; // Distribuição leve e espaçada
+      const colors = ['#C5A028', '#F1D592', '#FFF9E5']; // Tons dourados e branco quente
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        
+        // Tamanho entre 1px e 2.8px
+        const size = Math.random() * 1.8 + 1;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        
+        // Cor aleatória da paleta premium
+        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Distribuição horizontal aleatória
+        p.style.left = Math.random() * 100 + '%';
+        
+        // Posição vertical inicial aleatória para evitar sincronia artificial no início
+        p.style.top = Math.random() * 100 + '%';
+        
+        // Movimento lento: duração entre 20s e 45s
+        const duration = Math.random() * 25 + 20;
+        const delay = Math.random() * -45; // Delay negativo para as partículas já estarem em tela
+        
+        p.style.animationDuration = duration + 's';
+        p.style.animationDelay = delay + 's';
+        
+        container.appendChild(p);
+      }
+    </script>
   </body>
 </html>

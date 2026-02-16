@@ -7,12 +7,14 @@ import ActionCards from './components/ActionCards';
 import UnitsSection from './components/UnitsSection';
 import StoreSection from './components/StoreSection';
 import MapSection from './components/MapSection';
+import StatsSection from './components/StatsSection';
 import FullMatImage from './components/FullMatImage';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import BeltSeparator from './components/BeltSeparator';
+import { LanguageProvider } from './context/LanguageContext';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -33,7 +35,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden selection:bg-[#F7B500] selection:text-black bg-[#050505]">
+    <div className="flex flex-col w-full overflow-x-hidden selection:bg-[#C5A028] selection:text-black bg-[#0b0b0b]">
       <Navbar />
       <Hero />
       <BeltSeparator />
@@ -48,6 +50,7 @@ const App: React.FC = () => {
       <UnitsSection />
       <BeltSeparator />
       <MapSection />
+      <StatsSection />
       <BeltSeparator />
       <StoreSection />
       <FullMatImage />
@@ -55,6 +58,14 @@ const App: React.FC = () => {
       <Newsletter />
       <Footer />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 };
 
