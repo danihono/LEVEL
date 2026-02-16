@@ -33,16 +33,18 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-6 md:px-12 py-4 md:py-6 ${
-        isScrolled ? 'bg-black/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3 border-b border-[#C5A028]/10' : 'bg-transparent'
+      className={`fixed top-0 left-0 w-full z-50 border-b transition-[background-color,backdrop-filter,box-shadow,border-color,padding] duration-500 px-6 md:px-12 py-4 md:py-6 ${
+        isScrolled ? 'bg-black/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3' : 'bg-transparent'
       }`}
+      style={{ borderBottomColor: isScrolled ? 'rgba(197,160,40,0.12)' : 'transparent' }}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center group cursor-pointer h-16 md:h-20">
+        <div className="flex items-center group cursor-pointer h-20 md:h-24 w-[110px] md:w-[140px]">
           <Logo 
             variant="light" 
-            className="h-full" 
-            showText={true} 
+            className="w-full h-full" 
+            showText={true}
+            useRealLogo={true}
           />
         </div>
 
@@ -115,7 +117,7 @@ const Navbar: React.FC = () => {
         >
           &times;
         </button>
-        <Logo className="h-32 mb-8" variant="light" />
+        <Logo className="h-32 mb-8" variant="light" useRealLogo={true} />
         {navLinks.map((link) => (
           <a
             key={link.name}

@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -45,11 +45,12 @@
         animation: rotateSmoke 240s linear infinite;
       }
 
-      /* Sistema de Partículas de Elite */
+      /* Sistema de PartÃ­culas de Elite */
       .particles-container {
         position: fixed;
         inset: 0;
-        z-index: -1; /* Atrás de tudo */
+        z-index: 13; /* Acima do fundo, abaixo do conteudo principal */
+        mix-blend-mode: screen;
         pointer-events: none;
         overflow: hidden;
       }
@@ -58,7 +59,7 @@
         position: absolute;
         border-radius: 50%;
         opacity: 0;
-        filter: blur(0.3px);
+        filter: blur(0.6px) drop-shadow(0 0 6px rgba(241, 213, 146, 0.75));
         animation: floatParticle linear infinite;
         will-change: transform, opacity;
       }
@@ -74,10 +75,10 @@
           opacity: 0; 
         }
         20% { 
-          opacity: 0.25; /* Opacidade máxima sutil */
+          opacity: 0.55; /* Opacidade maxima mais visivel */
         }
         80% { 
-          opacity: 0.15; 
+          opacity: 0.35; 
         }
         100% { 
           transform: translateY(-120vh) translateX(40px); 
@@ -167,7 +168,7 @@
 
     <script>
       const container = document.getElementById('particles');
-      const count = 55; // Distribuição leve e espaçada
+      const count = 120; // Mais particulas para melhor visibilidade
       const colors = ['#C5A028', '#F1D592', '#FFF9E5']; // Tons dourados e branco quente
 
       for (let i = 0; i < count; i++) {
@@ -175,22 +176,22 @@
         p.className = 'particle';
         
         // Tamanho entre 1px e 2.8px
-        const size = Math.random() * 1.8 + 1;
+        const size = Math.random() * 3 + 1.2;
         p.style.width = size + 'px';
         p.style.height = size + 'px';
         
-        // Cor aleatória da paleta premium
+        // Cor aleatÃ³ria da paleta premium
         p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         
-        // Distribuição horizontal aleatória
+        // DistribuiÃ§Ã£o horizontal aleatÃ³ria
         p.style.left = Math.random() * 100 + '%';
         
-        // Posição vertical inicial aleatória para evitar sincronia artificial no início
+        // PosiÃ§Ã£o vertical inicial aleatÃ³ria para evitar sincronia artificial no inÃ­cio
         p.style.top = Math.random() * 100 + '%';
         
-        // Movimento lento: duração entre 20s e 45s
-        const duration = Math.random() * 25 + 20;
-        const delay = Math.random() * -45; // Delay negativo para as partículas já estarem em tela
+        // Movimento lento: duraÃ§Ã£o entre 20s e 45s
+        const duration = Math.random() * 16 + 14;
+        const delay = Math.random() * -45; // Delay negativo para as partÃ­culas jÃ¡ estarem em tela
         
         p.style.animationDuration = duration + 's';
         p.style.animationDelay = delay + 's';
@@ -198,5 +199,11 @@
         container.appendChild(p);
       }
     </script>
+      <script type="module" src="/index.tsx"></script>
   </body>
 </html>
+
+
+
+
+

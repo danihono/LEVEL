@@ -1,13 +1,34 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 
 interface LogoProps {
   className?: string;
   variant?: 'light' | 'dark' | 'full';
   showText?: boolean;
+  useRealLogo?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ className = "h-12", variant = 'full', showText = true }) => {
+const Logo: React.FC<LogoProps> = ({
+  className = "h-12",
+  variant = 'full',
+  showText = true,
+  useRealLogo = false,
+}) => {
+  const [imageError, setImageError] = useState(false);
+
+  if (useRealLogo && !imageError) {
+    return (
+      <div className={`${className} overflow-hidden`}>
+        <img
+          src="/images/logo-real.png"
+          alt="LEVEL Jiu Jitsu"
+          className="w-full h-full object-cover scale-[1.08]"
+          onError={() => setImageError(true)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {/* Icon portion (the stylized 'N') */}

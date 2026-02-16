@@ -2,6 +2,14 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
+const mapPoints = [
+  { id: 'sp-capital', top: '80%', left: '30.8%', label: 'Sao Paulo - SP' },
+  { id: 'sp-interior', top: '73.5%', left: '33.2%', label: 'Campinas - SP' },
+  { id: 'rj-capital', top: '77.4%', left: '34.6%', label: 'Rio de Janeiro - RJ' },
+  { id: 'us-florida', top: '49.5%', left: '24.5%', label: 'Miami - FL' },
+  { id: 'us-ny', top: '40.5%', left: '20.3%', label: 'New York - NY' },
+];
+
 const MapSection: React.FC = () => {
   const { t } = useLanguage();
   return (
@@ -24,13 +32,18 @@ const MapSection: React.FC = () => {
         </div>
         <div className="w-full lg:w-2/3 h-[600px] bg-black relative overflow-hidden reveal border border-white/5">
           <div className="absolute inset-0 opacity-30 brightness-[0.4]" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2066&auto=format&fit=crop")', backgroundSize: 'cover', filter: 'grayscale(1) contrast(1.4)' }}></div>
-          <div className="absolute top-1/4 left-1/3 group"><div className="w-6 h-6 bg-brand-gold rounded-full border-4 border-black animate-pulse shadow-[0_0_25px_#C5A028]"></div></div>
-          <div className="absolute bottom-1/3 right-1/4 group"><div className="w-6 h-6 bg-brand-gold rounded-full border-4 border-black animate-pulse shadow-[0_0_25px_#C5A028]"></div></div>
-          <div className="absolute bottom-10 left-10 bg-[#0d0d0d]/95 backdrop-blur-2xl p-10 shadow-3xl max-w-sm border-l-4 border-brand-gold">
-            <p className="text-[9px] font-black tracking-[0.4em] text-brand-gold mb-3">LEVEL JARDINS</p>
-            <h5 className="font-bold text-2xl text-white">SAO PAULO HQ</h5>
-            <p className="text-xs text-zinc-500 mt-4 leading-relaxed tracking-widest uppercase">Rua Oscar Freire, 1234<br/>São Paulo, SP - Brasil</p>
-          </div>
+          {mapPoints.map((point) => (
+            <div
+              key={point.id}
+              className="absolute group"
+              style={{ top: point.top, left: point.left, transform: 'translate(-50%, -50%)' }}
+            >
+              <div className="w-5 h-5 bg-brand-gold rounded-full border-4 border-black animate-pulse shadow-[0_0_25px_#C5A028]"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-7 px-2 py-1 text-[9px] uppercase tracking-wider bg-black/85 text-brand-gold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">
+                {point.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

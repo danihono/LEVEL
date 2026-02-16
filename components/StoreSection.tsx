@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const products = [
   { name: 'GI PRO SERIES - WHITE', price: 'R$ 890,00', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1974&auto=format&fit=crop' },
-  { name: 'LEVEL TRAINING RASHGUARD', price: 'R$ 240,00', img: 'https://images.unsplash.com/photo-1517438476312-10d79c67750d?q=80&w=2017&auto=format&fit=crop' },
+  { name: 'LEVEL TRAINING RASHGUARD', price: 'R$ 240,00', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyu0RXeqz7tmrwp-sJ-x_r8ZIJMV88fBb_GA&s' },
   { name: 'LIFESTYLE HOODIE BLACK', price: 'R$ 380,00', img: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1974&auto=format&fit=crop' },
 ];
 

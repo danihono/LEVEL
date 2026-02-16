@@ -1,6 +1,5 @@
-
+﻿
 import React from 'react';
-import Logo from './Logo';
 import { useLanguage } from '../context/LanguageContext';
 
 const Hero: React.FC = () => {
@@ -11,7 +10,7 @@ const Hero: React.FC = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.3] brightness-[0.4]"
         style={{ 
-          backgroundImage: 'url("https://images.unsplash.com/photo-1552072092-7f9b8d63efcb?q=80&w=2070&auto=format&fit=crop")',
+          backgroundImage: "url('/images/hero.png')",
         }}
       >
         {/* Uniform Overlay for legibility */}
@@ -24,11 +23,6 @@ const Hero: React.FC = () => {
       {/* Content Container - Left Aligned */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 flex flex-col justify-center">
         
-        {/* Logo - Minimalist approach */}
-        <div className="mb-12 opacity-90 h-16 md:h-20 flex justify-start reveal" style={{ transitionDelay: '100ms' }}>
-          <Logo className="h-full" variant="light" showText={false} />
-        </div>
-
         {/* Imposing Title */}
         <div className="max-w-3xl">
           <h1 className="text-6xl md:text-8xl lg:text-9xl text-white font-extralight leading-[0.95] tracking-tighter uppercase reveal" style={{ transitionDelay: '300ms' }}>

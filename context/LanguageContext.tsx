@@ -67,7 +67,7 @@ const translations: Record<Language, Record<string, string>> = {
     nav_store: 'STORE',
     nav_contact: 'CONTACT',
     hero_elevate: 'ELEVATE YOUR',
-    hero_jiujitsu: 'JIU JITSU LEVEL',
+    hero_jiujitsu: 'ON JIU JITSU',
     hero_desc: 'Where tradition meets modernity. Experience the LEVEL standard of teaching in an exclusive environment designed for your sovereign evolution.',
     hero_btn_units: 'FIND A UNIT',
     hero_btn_team: 'MEET THE TEAM',
