@@ -1,27 +1,29 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+
+const baseUrl = import.meta.env.BASE_URL;
 
 const founders = [
   {
     name: 'GRAND MASTER CARLOS',
     age: '62',
-    rank: 'RED BELT 9Âº DEGREE',
-    units: 'LEVEL MATRIZ (SÃƒO PAULO), LEVEL PINHEIROS',
-    img: '/images/fundador1.png',
+    rank: 'RED BELT 9º DEGREE',
+    units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
+    img: `${baseUrl}images/fundador1.png`,
   },
   {
     name: 'MASTER RICARDO SALDANHA',
     age: '48',
-    rank: 'BLACK BELT 6Âº DEGREE',
+    rank: 'BLACK BELT 6º DEGREE',
     units: 'LEVEL IPANEMA (RIO), LEVEL BRICKELL (MIAMI)',
-    img: '/images/fundador2.png',
+    img: `${baseUrl}images/fundador2.png`,
   },
   {
     name: 'MASTER FABIO',
     age: '42',
-    rank: 'BLACK BELT 5Âº DEGREE',
+    rank: 'BLACK BELT 5º DEGREE',
     units: 'LEVEL ALVALADE (LISBOA), LEVEL MADRID',
-    img: '/images/fundador3.png',
+    img: `${baseUrl}images/fundador3.png`,
   },
 ];
 
@@ -103,3 +105,4 @@ const MainCards: React.FC = () => {
 };
 
 export default MainCards;
+

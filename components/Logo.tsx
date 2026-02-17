@@ -15,12 +15,13 @@ const Logo: React.FC<LogoProps> = ({
   useRealLogo = false,
 }) => {
   const [imageError, setImageError] = useState(false);
+  const baseUrl = import.meta.env.BASE_URL;
 
   if (useRealLogo && !imageError) {
     return (
       <div className={`${className} overflow-hidden`}>
         <img
-          src="/images/logo-real.png"
+          src={`${baseUrl}images/logo-real.png`}
           alt="LEVEL Jiu Jitsu"
           className="w-full h-full object-cover scale-[1.08]"
           onError={() => setImageError(true)}

@@ -4,13 +4,15 @@ import { useLanguage } from '../context/LanguageContext';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
+  const baseUrl = import.meta.env.BASE_URL;
+
   return (
     <section className="relative h-screen w-full flex items-center overflow-hidden bg-black">
       {/* Background Image - Restaurada para Unsplash para garantir visualização */}
       <div 
         className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.3] brightness-[0.4]"
         style={{ 
-          backgroundImage: "url('/images/hero.png')",
+          backgroundImage: `url('${baseUrl}images/hero.png')`,
         }}
       >
         {/* Uniform Overlay for legibility */}
