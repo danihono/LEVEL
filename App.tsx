@@ -12,6 +12,7 @@ import FullMatImage from './components/FullMatImage';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import BeltSeparator from './components/BeltSeparator';
+import BlackBeltsShowcase from './components/BlackBeltsShowcase';
 import { LanguageProvider } from './context/LanguageContext';
 
 const AppContent: React.FC = () => {
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
       <div className="py-8">
         <MainCards />
       </div>
+      <BlackBeltsShowcase />
       <BeltSeparator />
       <div className="py-8">
         <ActionCards />

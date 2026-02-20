@@ -4,26 +4,25 @@ import { useLanguage } from '../context/LanguageContext';
 const baseUrl = import.meta.env.BASE_URL;
 
 const founders = [
-  {
-    name: 'GRAND MASTER CARLOS',
-    age: '62',
-    rank: 'RED BELT 9º DEGREE',
-    units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
-    img: `${baseUrl}images/fundador1.png`,
-  },
-  {
-    name: 'MASTER RICARDO SALDANHA',
-    age: '48',
-    rank: 'BLACK BELT 6º DEGREE',
-    units: 'LEVEL IPANEMA (RIO), LEVEL BRICKELL (MIAMI)',
-    img: `${baseUrl}images/fundador2.png`,
-  },
-  {
-    name: 'MASTER FABIO',
-    age: '42',
-    rank: 'BLACK BELT 5º DEGREE',
+  {name: 'ALBA RODRIGUES',
+    age: '50',
+    rank: 'FUNDADORA, COORDENADORA PEDAGÓGICA E METODOLOGISTA',
     units: 'LEVEL ALVALADE (LISBOA), LEVEL MADRID',
-    img: `${baseUrl}images/fundador3.png`,
+    img: `${baseUrl}images/alba.jpeg`,
+  },
+  {
+    name: 'RICARDO SALDANHA',
+    age: '50',
+    rank: 'BLACK BELT 5º DEGREE',
+    units: 'LEVEL IPANEMA (RIO), LEVEL BRICKELL (MIAMI)',
+    img: `${baseUrl}images/ricardo.jpeg`,
+  },
+  {
+    name: 'ADRIANO PIRES',
+    age: '50',
+    rank: 'BLACK BELT 6º DEGREE',
+    units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
+    img: `${baseUrl}images/image1.jpeg`,
   },
 ];
 
