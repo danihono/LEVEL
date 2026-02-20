@@ -6,6 +6,9 @@ interface LogoProps {
   variant?: 'light' | 'dark' | 'full';
   showText?: boolean;
   useRealLogo?: boolean;
+  realLogoSrc?: string;
+  realLogoImgClassName?: string;
+  realLogoImgStyle?: React.CSSProperties;
 }
 
 const Logo: React.FC<LogoProps> = ({
@@ -13,6 +16,9 @@ const Logo: React.FC<LogoProps> = ({
   variant = 'full',
   showText = true,
   useRealLogo = false,
+  realLogoSrc,
+  realLogoImgClassName,
+  realLogoImgStyle,
 }) => {
   const [imageError, setImageError] = useState(false);
   const baseUrl = import.meta.env.BASE_URL;
@@ -21,9 +27,10 @@ const Logo: React.FC<LogoProps> = ({
     return (
       <div className={`${className} overflow-hidden`}>
         <img
-          src={`${baseUrl}images/logo-real.png`}
+          src={`${baseUrl}${realLogoSrc ?? 'images/logo-real.png'}`}
           alt="LEVEL Jiu Jitsu"
-          className="w-full h-full object-cover scale-[1.08]"
+          className={`w-full h-full object-cover scale-[1.08] ${realLogoImgClassName ?? ''}`}
+          style={realLogoImgStyle}
           onError={() => setImageError(true)}
         />
       </div>

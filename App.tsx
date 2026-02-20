@@ -43,6 +43,7 @@ const AppContent: React.FC = () => {
       <div className="py-8">
         <MainCards />
       </div>
+      <BeltSeparator />
       <BlackBeltsShowcase />
       <BeltSeparator />
       <div className="py-8">

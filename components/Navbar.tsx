@@ -39,12 +39,14 @@ const Navbar: React.FC = () => {
       style={{ borderBottomColor: isScrolled ? 'rgba(197,160,40,0.12)' : 'transparent' }}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center group cursor-pointer h-20 md:h-24 w-[110px] md:w-[140px]">
+        <div className="flex items-center group cursor-pointer h-24 md:h-28 w-[150px] md:w-[190px]">
           <Logo 
             variant="light" 
             className="w-full h-full" 
             showText={true}
             useRealLogo={true}
+            realLogoSrc="images/logo3.png"
+            realLogoImgClassName="object-contain"
           />
         </div>
 
@@ -117,7 +119,13 @@ const Navbar: React.FC = () => {
         >
           &times;
         </button>
-        <Logo className="h-32 mb-8" variant="light" useRealLogo={true} />
+        <Logo
+          className="h-32 mb-8"
+          variant="light"
+          useRealLogo={true}
+          realLogoSrc="images/logo3.png"
+          realLogoImgClassName="object-contain"
+        />
         {navLinks.map((link) => (
           <a
             key={link.name}

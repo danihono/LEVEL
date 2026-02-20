@@ -3,31 +3,74 @@ import { useLanguage } from '../context/LanguageContext';
 
 type RankedItem = {
   rank: number;
-  title: string;
+  name: string;
   subtitle: string;
+  photoUrl?: string;
+};
+
+const RankedAvatar: React.FC<{ name: string; photoUrl?: string }> = ({ name, photoUrl }) => {
+  const [failed, setFailed] = React.useState(false);
+
+  const getInitials = (fullName: string) => {
+    const parts = fullName.trim().split(/\s+/).filter(Boolean);
+    const first = parts[0]?.[0] ?? '';
+    const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? '' : '';
+    return (first + last).toUpperCase();
+  };
+
+  return (
+    <div className="relative w-12 h-12 rounded-full border border-[#C5A028]/25 bg-black/35 overflow-hidden shrink-0">
+      {photoUrl && !failed ? (
+        <img
+          src={photoUrl}
+          alt={name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <div className="w-full h-full grid place-items-center font-black tracking-[0.12em] text-white/85">
+          {getInitials(name)}
+        </div>
+      )}
+      <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/40"></div>
+    </div>
+  );
 };
 
 const BlackBeltsShowcase: React.FC = () => {
   const { t } = useLanguage();
   const baseUrl = import.meta.env.BASE_URL;
-  const bgImage = `${baseUrl}images/hero.png`;
+  const bgImage = `${baseUrl}images/team.png`;
 
-  // Placeholder content: replace titles with real names/roles when ready.
-  const ranked: RankedItem[] = Array.from({ length: 6 }, (_, i) => ({
-    rank: i + 1,
-    title: t('bb_rank_title'),
-    subtitle: t('bb_rank_sub'),
-  }));
+  const ranked: RankedItem[] = Array.from({ length: 6 }, (_, i) => {
+    const rank = i + 1;
+    const photoUrl =
+      rank === 1
+        ? `${baseUrl}images/fundador1.png`
+        : rank === 2
+          ? `${baseUrl}images/fundador2.png`
+          : rank === 3
+            ? `${baseUrl}images/fundador3.png`
+            : undefined;
+
+    return {
+      rank,
+      name: `${t('bb_rank_name')} ${rank}`,
+      subtitle: t('bb_rank_sub'),
+      photoUrl,
+    };
+  });
 
   return (
     <section id="team" className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.35] brightness-[0.28] blur-[1px] opacity-85"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.18] brightness-[0.42] contrast-[1.05] opacity-95"
         style={{ backgroundImage: `url('${bgImage}')` }}
       >
-        <div className="absolute inset-0 bg-black/45"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
+        <div className="absolute inset-0 bg-black/22"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20"></div>
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-24 md:py-32">
@@ -97,7 +140,7 @@ const BlackBeltsShowcase: React.FC = () => {
                       ].join(' ')}
                       style={{ transitionDelay: `${260 + idx * 90}ms` }}
                     >
-                      <div className="flex items-baseline gap-3 min-w-[92px]">
+                      <div className="min-w-[104px] flex flex-col justify-center">
                         <div
                           className={[
                             'font-black tracking-tight leading-none',
@@ -107,20 +150,21 @@ const BlackBeltsShowcase: React.FC = () => {
                           #{item.rank}
                         </div>
                         {isTop && (
-                          <span className="hidden sm:inline-flex items-center rounded-full border border-[#C5A028]/25 bg-black/35 px-3 py-1 text-[10px] tracking-[0.18em] uppercase text-white/75">
+                          <span className="mt-2 hidden sm:inline-flex w-fit items-center rounded-full border border-[#C5A028]/25 bg-black/35 px-3 py-1 text-[10px] tracking-[0.18em] uppercase text-white/75">
                             {t('bb_ranking_top')}
                           </span>
                         )}
                       </div>
 
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="text-base md:text-lg font-bold">{item.title}</div>
-                          <div className="text-[10px] md:text-xs tracking-[0.18em] uppercase text-white/45">
-                            {t('bb_ranking_badge')}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <RankedAvatar name={item.name} photoUrl={item.photoUrl} />
+
+                          <div className="min-w-0">
+                            <div className="text-base md:text-lg font-bold truncate">{item.name}</div>
+                            <div className="text-sm text-white/65 mt-0.5">{item.subtitle}</div>
                           </div>
                         </div>
-                        <div className="text-sm text-white/65 mt-1">{item.subtitle}</div>
                         <div className="mt-3 bb-belt"></div>
                       </div>
                     </li>
