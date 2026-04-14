@@ -4,9 +4,9 @@ import { useLanguage } from '../context/LanguageContext';
 
 const units = [
   { city: 'SÃO PAULO', name: 'LEVEL MATRIZ', img: 'https://gurupass-photos-production.s3.amazonaws.com/93339a36-a504-4247-aa16-857475d49dbc-max-fitness-academy_intern' },
-  { city: 'RIO DE JANEIRO', name: 'LEVEL IPANEMA', img: 'https://gurupass-photos-production.s3.amazonaws.com/ffb64b68-914a-42da-ae97-690ba11492d5-max-fitness-academy_intern' },
-  { city: 'MIAMI', name: 'LEVEL BRICKELL', img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop' },
-  { city: 'LISBOA', name: 'LEVEL ALVALADE', img: 'https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?q=80&w=1900&auto=format&fit=crop' },
+  { city: 'RIO DE JANEIRO', name: 'LEVEL CAMPINAS', img: 'https://gurupass-photos-production.s3.amazonaws.com/ffb64b68-914a-42da-ae97-690ba11492d5-max-fitness-academy_intern' },
+  { city: 'MIAMI', name: 'LEVEL CAMBUÍ', img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop' },
+  { city: 'LISBOA', name: 'LEVEL JAGUARIÚNA', img: 'https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?q=80&w=1900&auto=format&fit=crop' },
 ];
 
 const UnitsSection: React.FC = () => {
