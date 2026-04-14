@@ -27,16 +27,15 @@ const Hero: React.FC = () => {
         
         {/* Imposing Title */}
         <div className="max-w-3xl">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl text-white font-extralight leading-[0.95] tracking-tighter uppercase reveal" style={{ transitionDelay: '300ms' }}>
-            <span className="block opacity-80">{t('hero_elevate')}</span>
-            <span className="text-brand-gold font-black italic drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">LEVEL</span>
+          <h1 className="text-6xl md:text-8xl lg:text-9xl text-white font-extralight leading-[0.95] tracking-tighter reveal" style={{ transitionDelay: '300ms' }}>
+            <span className="block text-brand-gold font-black italic tracking-normal drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">LEVEL</span>
             <span className="block mt-2 text-4xl md:text-6xl lg:text-7xl font-thin tracking-[-0.05em] text-white/90">
-              {t('hero_jiujitsu')}
+              {t('hero_title_suffix')}
             </span>
           </h1>
 
           {/* Minimalist Subtext */}
-          <p className="mt-10 text-zinc-300 text-lg md:text-xl font-light tracking-wide max-w-lg leading-relaxed border-l border-brand-gold/40 pl-8 reveal" style={{ transitionDelay: '500ms' }}>
+          <p className="mt-10 whitespace-pre-line text-zinc-300 text-lg md:text-xl font-light tracking-wide max-w-2xl leading-relaxed border-l border-brand-gold/40 pl-8 reveal" style={{ transitionDelay: '500ms' }}>
             {t('hero_desc')}
           </p>
         </div>
