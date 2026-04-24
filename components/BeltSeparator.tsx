@@ -1,6 +1,8 @@
 ﻿import React from 'react';
 
 const BeltSeparator: React.FC = () => {
+  const baseUrl = import.meta.env.BASE_URL;
+
   return (
     <div className="relative w-full h-32 flex items-center justify-center my-4 z-30 pointer-events-none select-none overflow-visible">
       {/* Divisória horizontal */}
@@ -12,7 +14,11 @@ const BeltSeparator: React.FC = () => {
 
       {/* Imagem da faixa por cima */}
       <div className="relative z-10 translate-y-2">
-        <img src="public/images/faixa.png" alt="belt separator" className="w-64 h-auto drop-shadow-[0_22px_38px_rgba(0,0,0,0.95)]" />
+        <img
+          src={`${baseUrl}images/faixa.png`}
+          alt="belt separator"
+          className="w-64 h-auto drop-shadow-[0_22px_38px_rgba(0,0,0,0.95)]"
+        />
       </div>
     </div>
   );
