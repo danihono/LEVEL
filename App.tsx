@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import AboutSection from './components/AboutSection';
 import MainCards from './components/MainCards';
 import ActionCards from './components/ActionCards';
 import UnitsSection from './components/UnitsSection';
@@ -39,6 +40,7 @@ const AppContent: React.FC = () => {
     <div className="flex flex-col w-full overflow-x-hidden selection:bg-[#C5A028] selection:text-black bg-[#0b0b0b]">
       <Navbar />
       <Hero />
+      <AboutSection />
       <BeltSeparator />
       <div className="py-8">
         <MainCards />
