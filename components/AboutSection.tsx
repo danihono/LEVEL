@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 type SceneKey = 'culture' | 'mission' | 'base' | 'values';
@@ -47,250 +47,322 @@ const SceneIcon: React.FC<{ scene: SceneKey; className?: string }> = ({ scene, c
   );
 };
 
-const ArrowRightIcon: React.FC<{ className?: string }> = ({ className = 'h-5 w-5' }) => (
-  <svg
-    viewBox="0 0 24 24"
-    className={className}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="m9.5 5 7 7-7 7" />
-  </svg>
-);
-
-const initialImageErrors: Record<SceneKey, boolean> = {
-  culture: false,
-  mission: false,
-  base: false,
-  values: false,
-};
+const SCENE_COUNT = 4;
 
 const AboutSection: React.FC = () => {
   const { t } = useLanguage();
-  const [activeScene, setActiveScene] = useState(0);
-  const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const [imageErrors, setImageErrors] = useState<Record<SceneKey, boolean>>(initialImageErrors);
+  const sectionRef = useRef<HTMLElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  // [slideIndex][elementIndex]: kicker=0, headline=1, divider=2, description=3
+  const elementRefs = useRef<(HTMLElement | null)[][]>(
+    Array.from({ length: SCENE_COUNT }, () => new Array(4).fill(null))
+  );
+  const [activeSlide, setActiveSlide] = useState(0);
   const baseUrl = import.meta.env.BASE_URL;
-  const fallbackImage = `${baseUrl}images/team.png`;
 
   const scenes: Array<{
     key: SceneKey;
     cardTitle: string;
     headline: string;
-    supportLine: string;
     description: string;
-    detailLabel?: string;
-    details: string[];
+    details?: Array<{ title: string; description: string }>;
     image: string;
+    accent: string;
   }> = [
     {
       key: 'culture',
       cardTitle: t('about_culture_card_title'),
       headline: t('about_culture_headline'),
-      supportLine: t('about_culture_support'),
       description: t('about_culture_desc'),
-      details: [],
       image: `${baseUrl}images/cultura.png`,
-    },
-    {
-      key: 'mission',
-      cardTitle: t('about_mission_card_title'),
-      headline: t('about_mission_headline'),
-      supportLine: t('about_mission_support'),
-      description: t('about_mission_desc'),
-      details: [],
-      image: `${baseUrl}images/missao.png`,
+      accent: '#C5A028',
     },
     {
       key: 'base',
       cardTitle: t('about_base_card_title'),
       headline: t('about_base_headline'),
-      supportLine: t('about_base_support'),
       description: t('about_base_highlight'),
-      detailLabel: t('about_base_pillars_title'),
-      details: [t('about_pillar_1_title'), t('about_pillar_2_title'), t('about_pillar_3_title')],
+      details: [
+        { title: t('about_pillar_1_title'), description: t('about_pillar_1_desc') },
+        { title: t('about_pillar_2_title'), description: t('about_pillar_2_desc') },
+        { title: t('about_pillar_3_title'), description: t('about_pillar_3_desc') },
+      ],
       image: `${baseUrl}images/base.png`,
+      accent: '#2DD4BF',
+    },
+    {
+      key: 'mission',
+      cardTitle: t('about_mission_card_title'),
+      headline: t('about_mission_headline'),
+      description: t('about_mission_desc'),
+      image: `${baseUrl}images/missao.png`,
+      accent: '#4B9EF5',
     },
     {
       key: 'values',
       cardTitle: t('about_values_card_title'),
       headline: t('about_values_headline'),
-      supportLine: t('about_values_support'),
       description: t('about_values_support'),
-      detailLabel: t('about_values_title'),
       details: [
-        t('about_value_1_title'),
-        t('about_value_2_title'),
-        t('about_value_3_title'),
-        t('about_value_4_title'),
-        t('about_value_5_title'),
+        { title: t('about_value_1_title'), description: t('about_value_1_desc') },
+        { title: t('about_value_2_title'), description: t('about_value_2_desc') },
+        { title: t('about_value_3_title'), description: t('about_value_3_desc') },
+        { title: t('about_value_4_title'), description: t('about_value_4_desc') },
+        { title: t('about_value_5_title'), description: t('about_value_5_desc') },
       ],
       image: `${baseUrl}images/valores.png`,
+      accent: '#F05A5A',
     },
   ];
 
-  const currentScene = scenes[activeScene];
-  const nextScene = scenes[(activeScene + 1) % scenes.length];
-  const currentImage = imageErrors[currentScene.key] ? fallbackImage : currentScene.image;
-  const counter = `${String(activeScene + 1).padStart(2, '0')} / ${String(scenes.length).padStart(2, '0')}`;
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      const inner = innerRef.current;
+      const track = trackRef.current;
+      if (!section || !inner || !track) return;
 
-  const handleNext = () => {
-    setActiveScene((current) => (current + 1) % scenes.length);
-    setIsCardFlipped(false);
-  };
+      const scrolled = -section.getBoundingClientRect().top;
+      const maxScroll = section.offsetHeight - window.innerHeight;
 
-  const handleCardToggle = () => {
-    if (typeof window !== 'undefined' && !window.matchMedia('(hover: none)').matches) {
-      return;
-    }
+      // stagger em unidades de slideProgress (kicker→headline→divider→desc)
+      const STAGGER = [0, 0.07, 0.13, 0.19];
+      const EXIT_WIN = 0.26;
+      const ENTER_WIN = 0.36;
 
-    setIsCardFlipped((current) => !current);
-  };
+      const applyReveal = (sp: number) => {
+        elementRefs.current.forEach((els, slideIdx) => {
+          const slideOffset = sp - slideIdx;
 
-  const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      setIsCardFlipped((current) => !current);
-    }
-  };
+          els.forEach((el, elIdx) => {
+            if (!el) return;
+            const stagger = STAGGER[elIdx] ?? 0;
+            let opacity: number;
+            let ty: number;
 
-  const handleImageError = (sceneKey: SceneKey) => {
-    setImageErrors((current) => {
-      if (current[sceneKey]) {
-        return current;
+            if (slideOffset <= 0) {
+              // Entrando da direita — cada elemento tem seu próprio delay
+              const adjusted = slideOffset + stagger;
+              const raw = Math.max(0, (adjusted + ENTER_WIN) / ENTER_WIN);
+              const t = 1 - (1 - raw) * (1 - raw); // ease-out
+              opacity = t;
+              ty = (1 - t) * 56;
+            } else {
+              // Saindo pela esquerda — todos somem juntos rápido
+              const raw = Math.max(0, 1 - slideOffset / EXIT_WIN);
+              const t = raw * raw; // ease-in
+              opacity = t;
+              ty = (1 - t) * -20;
+            }
+
+            el.style.opacity = String(opacity);
+            el.style.transform = `translateY(${ty}px)`;
+          });
+        });
+      };
+
+      if (scrolled <= 0) {
+        inner.style.position = 'relative';
+        inner.style.top = '0px';
+        inner.style.left = '';
+        inner.style.width = '';
+        track.style.transform = 'translateX(0vw)';
+        setActiveSlide(0);
+        applyReveal(0);
+      } else if (scrolled >= maxScroll) {
+        inner.style.position = 'absolute';
+        inner.style.top = `${maxScroll}px`;
+        inner.style.left = '';
+        inner.style.width = '';
+        track.style.transform = `translateX(${-(SCENE_COUNT - 1) * 100}vw)`;
+        setActiveSlide(SCENE_COUNT - 1);
+        applyReveal(SCENE_COUNT - 1);
+      } else {
+        inner.style.position = 'fixed';
+        inner.style.top = '0px';
+        inner.style.left = '0px';
+        inner.style.width = '100%';
+        const progress = scrolled / maxScroll;
+        const sp = progress * (SCENE_COUNT - 1);
+        track.style.transform = `translateX(${-progress * (SCENE_COUNT - 1) * 100}vw)`;
+        setActiveSlide(Math.round(sp));
+        applyReveal(sp);
       }
+    };
 
-      return { ...current, [sceneKey]: true };
-    });
-  };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section id="sobre-nos" className="relative overflow-hidden bg-[#050505] py-16 md:py-24">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(197,160,40,0.22),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(255,255,255,0.06),transparent_18%),linear-gradient(180deg,rgba(5,5,5,0.96)_0%,rgba(5,5,5,1)_100%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(197,160,40,0.05)_0,transparent_30%,transparent_70%,rgba(197,160,40,0.05)_100%)]"></div>
-      <div className="absolute top-0 left-0 h-28 w-full bg-gradient-to-b from-black to-transparent pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-16 lg:px-24">
-        <div className="mx-auto w-fit">
-          <div className="pl-1 text-left">
-            <span className="block text-[10px] font-black uppercase tracking-[0.5em] text-brand-gold">{t('about_kicker')}</span>
-            <h2 className="mt-4 text-[2.9rem] font-light uppercase leading-[0.9] tracking-[-0.06em] text-white md:text-[4.8rem]">
-              {currentScene.cardTitle}
-            </h2>
-          </div>
-
-          <div className="mt-8 flex w-full flex-col items-center gap-4 md:flex-row md:items-start md:gap-6">
+    <section
+      ref={sectionRef}
+      id="sobre-nos"
+      style={{ height: `${SCENE_COUNT * 100}vh` }}
+      className="relative"
+    >
+      <div
+        ref={innerRef}
+        className="w-full h-screen overflow-hidden bg-[#050505]"
+        style={{ position: 'relative', top: 0, left: 0 }}
+      >
+        {/* Progress bar */}
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-8">
+          {scenes.map((scene, i) => (
             <div
-              role="button"
-              tabIndex={0}
-              aria-label={currentScene.cardTitle}
-              aria-expanded={isCardFlipped}
-              onClick={handleCardToggle}
-              onKeyDown={handleCardKeyDown}
-              onMouseLeave={() => setIsCardFlipped(false)}
-              className="group [perspective:1600px] relative h-[440px] w-[280px] cursor-pointer md:h-[560px] md:w-[340px]"
+              key={scene.key}
+              className="flex flex-col items-center gap-2 transition-all duration-500"
+              style={{ color: i === activeSlide ? scene.accent : 'rgba(255,255,255,0.25)' }}
             >
+              <SceneIcon scene={scene.key} className="h-5 w-5" />
               <div
-                className={[
-                  'relative h-full w-full rounded-[30px] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d]',
-                  isCardFlipped ? '[transform:rotateY(180deg)]' : '[transform:rotateY(0deg)] md:group-hover:[transform:rotateY(180deg)]',
-                ].join(' ')}
+                className="h-px w-8 rounded-full transition-all duration-500"
+                style={{ background: i === activeSlide ? scene.accent : 'rgba(255,255,255,0.15)' }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Horizontal track */}
+        <div
+          ref={trackRef}
+          className="flex h-full"
+          style={{ width: `${SCENE_COUNT * 100}vw`, willChange: 'transform' }}
+        >
+          {scenes.map((scene, i) => (
+            <div
+              key={scene.key}
+              className="relative h-full overflow-hidden flex-shrink-0"
+              style={{ width: '100vw' }}
+            >
+              {/* Radial gradient background */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `radial-gradient(ellipse at 25% 60%, ${scene.accent}1a, transparent 55%), #050505`,
+                }}
+              />
+
+              {/* Top/bottom vignette */}
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,transparent_40%,rgba(0,0,0,0.35)_100%)] pointer-events-none" />
+
+              {/* Giant background number */}
+              <div
+                className="absolute bottom-0 right-6 font-black leading-none select-none pointer-events-none"
+                style={{
+                  fontSize: '28vw',
+                  color: scene.accent,
+                  opacity: 0.06,
+                  lineHeight: 0.82,
+                }}
+                aria-hidden="true"
               >
-                <div className="absolute inset-0 overflow-hidden rounded-[30px] border border-white/10 bg-black/55 shadow-[0_30px_90px_rgba(0,0,0,0.55)] [backface-visibility:hidden]">
-                  <img
-                    key={currentScene.key}
-                    src={currentImage}
-                    alt={currentScene.cardTitle}
-                    onError={() => handleImageError(currentScene.key)}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out md:group-hover:scale-[1.04]"
-                  />
+                {String(i + 1).padStart(2, '0')}
+              </div>
 
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.14)_38%,rgba(0,0,0,0.92)_100%)]"></div>
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(197,160,40,0.28),transparent_38%),radial-gradient(circle_at_82%_18%,rgba(255,255,255,0.12),transparent_18%)]"></div>
-                  <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/70 to-transparent"></div>
+              {/* Slide content */}
+              <div className="relative z-10 flex h-full items-center px-8 pt-36 pb-10 md:px-16 md:pt-44 md:pb-16 lg:px-24">
+                <div className="flex w-full flex-col gap-10 md:flex-row md:items-center md:gap-12 lg:gap-16">
 
-                  <div className="absolute left-5 right-5 top-5 flex items-start justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C5A028]/32 bg-black/45 text-brand-gold shadow-[0_0_24px_rgba(197,160,40,0.18)] backdrop-blur-sm">
-                      <SceneIcon scene={currentScene.key} />
+                  {/* Left: text — elementos com stagger reveal */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <div
+                      ref={el => { elementRefs.current[i][0] = el; }}
+                      className="flex items-center gap-3 mb-6"
+                    >
+                      <span style={{ color: scene.accent }}>
+                        <SceneIcon scene={scene.key} className="h-5 w-5" />
+                      </span>
+                      <span
+                        className="text-[10px] font-black uppercase tracking-[0.5em]"
+                        style={{ color: scene.accent }}
+                      >
+                        {scene.cardTitle}
+                      </span>
                     </div>
-                    <div className="text-[10px] font-black tracking-[0.4em] text-white/46">{counter}</div>
-                  </div>
 
-                  <div className="absolute inset-x-5 bottom-5">
-                    <div className="h-[2px] w-14 rounded-full bg-brand-gold/85"></div>
-                    <p className="mt-4 max-w-[12rem] text-[1.95rem] font-light leading-[0.98] tracking-tight text-white md:text-[2.35rem]">
-                      {currentScene.headline}
-                    </p>
-                    <p className="mt-3 max-w-[13rem] text-[11px] font-black uppercase tracking-[0.24em] text-white/58">
-                      {currentScene.cardTitle}
-                    </p>
-                  </div>
-                </div>
+                    <h2
+                      ref={el => { elementRefs.current[i][1] = el; }}
+                      className="text-[2.8rem] font-light uppercase leading-[0.9] tracking-[-0.05em] text-white md:text-[4rem] lg:text-[5rem]"
+                    >
+                      {scene.headline}
+                    </h2>
 
-                <div className="absolute inset-0 rounded-[30px] border border-[#C5A028]/18 bg-[linear-gradient(180deg,rgba(8,8,8,0.98)_0%,rgba(0,0,0,1)_100%)] shadow-[0_34px_96px_rgba(0,0,0,0.68)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(197,160,40,0.14),transparent_34%),linear-gradient(180deg,transparent_0%,rgba(197,160,40,0.06)_100%)]"></div>
-                  <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-brand-gold/75 to-transparent"></div>
+                    <div
+                      ref={el => { elementRefs.current[i][2] = el; }}
+                      className="mt-6 h-[2px] w-14 rounded-full"
+                      style={{ background: scene.accent }}
+                    />
 
-                  <div className="relative flex h-full flex-col p-5 md:p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C5A028]/30 bg-[#101010] text-brand-gold shadow-[0_0_24px_rgba(197,160,40,0.12)]">
-                        <SceneIcon scene={currentScene.key} />
+                    {scene.details ? (
+                      <div
+                        ref={el => { elementRefs.current[i][3] = el; }}
+                        className="mt-5 max-w-xl space-y-1.5 text-[13px] leading-relaxed text-white/62 sm:text-[14px] md:mt-6 md:space-y-3 md:text-[15px]"
+                      >
+                        {scene.details.map((detail) => (
+                          <div key={detail.title} className="flex gap-3">
+                            <span
+                              className="mt-[0.7em] h-1.5 w-1.5 flex-shrink-0 rounded-full"
+                              style={{ background: scene.accent }}
+                              aria-hidden="true"
+                            />
+                            <p>
+                              <span className="font-semibold text-white/82">{detail.title}:</span>{' '}
+                              {detail.description}
+                            </p>
+                          </div>
+                        ))}
                       </div>
-                      <div className="text-[10px] font-black tracking-[0.4em] text-white/34">{counter}</div>
-                    </div>
-
-                    <div className="mt-6">
-                      <div className="text-[11px] font-black uppercase tracking-[0.36em] text-brand-gold">{currentScene.cardTitle}</div>
-                      <p className="mt-4 text-[1.75rem] font-light leading-[1.02] tracking-tight text-white md:text-[2rem]">
-                        {currentScene.headline}
+                    ) : (
+                      <p
+                        ref={el => { elementRefs.current[i][3] = el; }}
+                        className="mt-6 max-w-md whitespace-pre-line text-[15px] leading-relaxed text-white/58 md:text-base"
+                      >
+                        {scene.description}
                       </p>
-                      <p className="mt-4 text-sm leading-relaxed text-white/72 md:text-[15px]">{currentScene.description}</p>
-                    </div>
+                    )}
+                  </div>
 
-                    <div className="mt-5 h-px w-full bg-white/8"></div>
-
-                    <div className="mt-5 flex-1">
-                      <div className="text-[10px] font-black uppercase tracking-[0.28em] text-white/34">
-                        {currentScene.detailLabel ?? currentScene.supportLine}
+                  {/* Right: image card 16:9 */}
+                  <div className="hidden md:block flex-shrink-0" style={{ width: 'clamp(360px, 46vw, 700px)' }}>
+                    <div
+                      className="relative overflow-hidden rounded-[20px]"
+                      style={{
+                        width: '100%',
+                        aspectRatio: '16 / 9',
+                        boxShadow: `0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px ${scene.accent}22`,
+                      }}
+                    >
+                      <img
+                        src={scene.image}
+                        alt={scene.cardTitle}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.08)_40%,rgba(0,0,0,0.72)_100%)]" />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: `radial-gradient(circle at top left, ${scene.accent}22, transparent 42%)`,
+                        }}
+                      />
+                      <div
+                        className="absolute top-0 left-0 right-0 h-[2px]"
+                        style={{
+                          background: `linear-gradient(90deg, transparent, ${scene.accent}cc, transparent)`,
+                        }}
+                      />
+                      <div className="absolute top-4 right-4 text-[10px] font-black tracking-[0.4em] text-white/36">
+                        {String(i + 1).padStart(2, '0')} / {String(SCENE_COUNT).padStart(2, '0')}
                       </div>
-
-                      {currentScene.details.length > 0 ? (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {currentScene.details.map((detail) => (
-                            <div
-                              key={detail}
-                              className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-white/72"
-                            >
-                              {detail}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="mt-4 text-[13px] leading-relaxed text-white/62">{currentScene.supportLine}</p>
-                      )}
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
-
-            <div className="flex items-center gap-3 md:flex-col">
-              <button
-                type="button"
-                aria-label={`${t('about_next')}: ${nextScene.cardTitle}`}
-                onClick={handleNext}
-                className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#C5A028]/30 bg-black/55 text-brand-gold shadow-[0_16px_42px_rgba(0,0,0,0.38)] backdrop-blur transition-all duration-300 hover:border-[#F1D592]/40 hover:bg-[#C5A028]/12 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/60 md:h-14 md:w-14"
-              >
-                <ArrowRightIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </button>
-              <div className="text-[10px] font-black tracking-[0.4em] text-white/34 md:mt-1">{counter}</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

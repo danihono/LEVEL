@@ -4,11 +4,12 @@ import { useLanguage } from '../context/LanguageContext';
 const baseUrl = import.meta.env.BASE_URL;
 
 const founders = [
-  {name: 'ALBA RODRIGUES',
+  {
+    name: 'ADRIANO PIRES',
     age: '50',
-    rank: 'FUNDADORA, COORDENADORA PEDAGÓGICA E METODOLOGISTA',
-    units: 'LEVEL ALVALADE (LISBOA), LEVEL MADRID',
-    img: `${baseUrl}images/alba.jpeg`,
+    rank: 'BLACK BELT 6º DEGREE',
+    units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
+    img: `${baseUrl}images/image1.jpeg`,
   },
   {
     name: 'RICARDO SALDANHA',
@@ -16,13 +17,6 @@ const founders = [
     rank: 'BLACK BELT 5º DEGREE',
     units: 'LEVEL IPANEMA (RIO), LEVEL BRICKELL (MIAMI)',
     img: `${baseUrl}images/ricardo.jpeg`,
-  },
-  {
-    name: 'ADRIANO PIRES',
-    age: '50',
-    rank: 'BLACK BELT 6º DEGREE',
-    units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
-    img: `${baseUrl}images/image1.jpeg`,
   },
 ];
 
@@ -43,7 +37,7 @@ const MainCards: React.FC = () => {
           <div className="mt-8 w-20 h-[1px] bg-brand-gold mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-4xl mx-auto">
           {founders.map((founder, idx) => (
             <div
               key={idx}
