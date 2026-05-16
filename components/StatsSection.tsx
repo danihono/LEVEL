@@ -69,10 +69,11 @@ const StatsSection: React.FC = () => {
             label={t('stats_students')} 
             delay={100}
           />
-          <StatItem 
-            endValue={15} 
-            suffix={language === 'PT' ? " ANOS" : language === 'ES' ? " AÑOS" : " YEARS"} 
-            label={t('stats_years')} 
+          <StatItem
+            endValue={20}
+            prefix="+"
+            suffix={language === 'PT' ? " ANOS" : language === 'ES' ? " AÑOS" : " YEARS"}
+            label={t('stats_years')}
             delay={300}
           />
           <StatItem 

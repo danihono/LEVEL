@@ -41,7 +41,7 @@ const RankedAvatar: React.FC<{ name: string; photoUrl?: string }> = ({ name, pho
 const BlackBeltsShowcase: React.FC = () => {
   const { t } = useLanguage();
   const baseUrl = import.meta.env.BASE_URL;
-  const bgImage = `${baseUrl}images/team.png`;
+  const bgImage = `${baseUrl}images/tres.png`;
 
   const ranked: RankedItem[] = Array.from({ length: 6 }, (_, i) => {
     const rank = i + 1;

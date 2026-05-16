@@ -9,20 +9,21 @@ const founders = [
     age: '50',
     rank: 'BLACK BELT 6º DEGREE',
     units: 'LEVEL MATRIZ (SÃO PAULO), LEVEL PINHEIROS',
-    img: `${baseUrl}images/image1.jpeg`,
+    img: `${baseUrl}images/adriano.jpg`,
   },
   {
     name: 'RICARDO SALDANHA',
     age: '50',
     rank: 'BLACK BELT 5º DEGREE',
     units: 'LEVEL IPANEMA (RIO), LEVEL BRICKELL (MIAMI)',
-    img: `${baseUrl}images/ricardo.jpeg`,
+    img: `${baseUrl}images/ricardo.jpg`,
   },
 ];
 
 const MainCards: React.FC = () => {
   const { t } = useLanguage();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [hoveredMethodologist, setHoveredMethodologist] = useState(false);
 
   return (
     <section className="py-24 px-4 md:px-0 bg-transparent">
@@ -55,7 +56,7 @@ const MainCards: React.FC = () => {
                     <img
                       src={founder.img}
                       alt={founder.name}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div className="absolute top-8 left-8">
@@ -91,6 +92,49 @@ const MainCards: React.FC = () => {
               </h3>
             </div>
           ))}
+        </div>
+
+        {/* Metodologista */}
+        <div className="mt-20 flex flex-col items-center">
+          <div className="w-12 h-[1px] bg-white/15 mx-auto mb-14"></div>
+          <span className="text-white/30 font-black tracking-[0.5em] text-[9px] uppercase block mb-12">
+            Metodologista
+          </span>
+          <div className="w-full max-w-sm">
+            <div
+              className="group flex flex-col items-center"
+              onMouseEnter={() => setHoveredMethodologist(true)}
+              onMouseLeave={() => setHoveredMethodologist(false)}
+            >
+              <div className="relative w-full h-[600px] perspective-1000 mb-8">
+                <div
+                  className="relative w-full h-full transition-transform duration-700 preserve-3d"
+                  style={{ transform: hoveredMethodologist ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+                >
+                  <div className="absolute inset-0 backface-hidden rounded-sm overflow-hidden border border-white/5 shadow-2xl bg-[#0a0a0a]">
+                    <img
+                      src={`${baseUrl}images/alba.jpg`}
+                      alt="Metodologista"
+                      className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div className="absolute top-8 left-8">
+                      <div className="w-1.5 h-12 bg-brand-gold shadow-[0_0_15px_rgba(197,160,40,0.5)]"></div>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 bg-[#0d0d0d] border border-brand-gold/20 p-12 flex flex-col justify-center shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                    <div className="relative z-10 space-y-6">
+                      <div>
+                        <p className="text-zinc-600 text-[9px] font-black uppercase tracking-widest mb-1">Função</p>
+                        <p className="text-brand-gold font-black text-sm tracking-[0.2em] uppercase">Metodologista</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

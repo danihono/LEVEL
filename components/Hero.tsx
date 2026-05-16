@@ -8,19 +8,18 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative h-screen w-full flex items-center overflow-hidden bg-black">
-      {/* Background Image - Restaurada para Unsplash para garantir visualização */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.3] brightness-[0.4]"
-        style={{ 
-          backgroundImage: `url('${baseUrl}images/hero.png')`,
-        }}
-      >
-        {/* Uniform Overlay for legibility */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        
-        {/* Subtle left-to-right gradient to anchor text focus */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/30 to-transparent"></div>
-      </div>
+      {/* Background Video */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        src={`${baseUrl}images/level.mp4`}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+
+      {/* Subtle left-to-right gradient to anchor text focus */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/20 to-transparent"></div>
 
       {/* Content Container - Left Aligned */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 flex flex-col justify-center">
