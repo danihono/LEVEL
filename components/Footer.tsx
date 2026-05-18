@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Logo from './Logo';
 import { useLanguage } from '../context/LanguageContext';
 
 const Footer: React.FC = () => {
@@ -11,7 +10,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-20 mb-24">
           <div className="col-span-1 md:col-span-1">
             <div className="mb-10 h-24 flex justify-start items-center">
-              <Logo className="h-full" variant="light" />
+              <img src={`${import.meta.env.BASE_URL}images/logo-real.png`} alt="LEVEL" className="h-full object-contain" />
             </div>
             <p className="text-zinc-500 text-sm font-light leading-relaxed mb-10 max-w-xs">{t('footer_desc')}</p>
             <div className="flex space-x-8">

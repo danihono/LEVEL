@@ -18,6 +18,9 @@ const Hero: React.FC = () => {
         playsInline
       />
 
+      {/* Very light dark film over video */}
+      <div className="absolute inset-0 bg-black/35"></div>
+
       {/* Subtle left-to-right gradient to anchor text focus */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/20 to-transparent"></div>
 
