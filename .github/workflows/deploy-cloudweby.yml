@@ -35,7 +35,7 @@ jobs:
       - name: Deploy dist to Cloudweby
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.CLOUDWEBY_FTP_SERVER }}
+          server: 199.193.117.238
           username: ${{ secrets.CLOUDWEBY_FTP_USERNAME }}
           password: ${{ secrets.CLOUDWEBY_FTP_PASSWORD }}
           local-dir: ./dist/
