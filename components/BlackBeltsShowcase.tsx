@@ -47,11 +47,11 @@ const BlackBeltsShowcase: React.FC = () => {
     const rank = i + 1;
     const photoUrl =
       rank === 1
-        ? `${baseUrl}images/fundador1.png`
+        ? `${baseUrl}images/adriano.jpg`
         : rank === 2
-          ? `${baseUrl}images/fundador2.png`
+          ? `${baseUrl}images/ricardo.jpg`
           : rank === 3
-            ? `${baseUrl}images/fundador3.png`
+            ? `${baseUrl}images/alba.jpg`
             : undefined;
 
     return {

@@ -1,0 +1,42 @@
+name: Deploy to Cloudweby
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: cloudweby
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudweby
+      url: https://leveljiujitsu.com.br
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy dist to Cloudweby
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CLOUDWEBY_FTP_SERVER }}
+          username: ${{ secrets.CLOUDWEBY_FTP_USERNAME }}
+          password: ${{ secrets.CLOUDWEBY_FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.CLOUDWEBY_FTP_DIR }}
