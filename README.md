@@ -18,3 +18,12 @@ View your app in AI Studio: https://ai.studio/apps/drive/1L6TAQLsWgC-08sZACuv1SP
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Deploy to Cloudweby
+
+1. Copy `.env.deploy.example` to `.env.deploy`.
+2. Fill in the FTP username, password, and target directory.
+3. Run:
+   `npm run deploy`
+
+`npm run deploy` builds the Vite app and uploads `dist/` to Cloudweby.
