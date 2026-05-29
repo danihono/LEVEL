@@ -2,11 +2,12 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
+// Unidades reais da Level. As imagens abaixo são placeholders neutros —
+// substituir pelas fotos de fachada/tatame de cada unidade quando recebidas.
 const units = [
-  { city: 'SÃO PAULO', name: 'LEVEL MATRIZ', img: 'https://gurupass-photos-production.s3.amazonaws.com/93339a36-a504-4247-aa16-857475d49dbc-max-fitness-academy_intern' },
-  { city: 'RIO DE JANEIRO', name: 'LEVEL CAMPINAS', img: 'https://gurupass-photos-production.s3.amazonaws.com/ffb64b68-914a-42da-ae97-690ba11492d5-max-fitness-academy_intern' },
-  { city: 'MIAMI', name: 'LEVEL CAMBUÍ', img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop' },
-  { city: 'LISBOA', name: 'LEVEL JAGUARIÚNA', img: 'https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?q=80&w=1900&auto=format&fit=crop' },
+  { city: 'CAMPINAS', name: 'LEVEL MATRIZ', img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop' },
+  { city: 'CAMPINAS - CAMBUÍ', name: 'LEVEL CAMBUÍ', img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop' },
+  { city: 'JAGUARIÚNA', name: 'LEVEL JAGUARIÚNA', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop' },
 ];
 
 const UnitsSection: React.FC = () => {
@@ -23,7 +24,7 @@ const UnitsSection: React.FC = () => {
             {t('units_btn_all')}
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {units.map((unit, idx) => (
             <div key={idx} className="group relative h-[500px] overflow-hidden reveal border border-white/5" style={{ transitionDelay: `${idx * 100}ms` }}>
               <img src={unit.img} alt={unit.name} className="w-full h-full object-cover grayscale brightness-[0.6] group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000 group-hover:scale-110" />

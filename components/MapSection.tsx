@@ -3,11 +3,8 @@ import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 const mapPoints = [
-  { id: 'sp-capital', top: '80%', left: '30.8%', label: 'Sao Paulo - SP' },
-  { id: 'sp-interior', top: '73.5%', left: '33.2%', label: 'Campinas - SP' },
-  { id: 'rj-capital', top: '77.4%', left: '34.6%', label: 'Rio de Janeiro - RJ' },
-  { id: 'us-florida', top: '49.5%', left: '24.5%', label: 'Miami - FL' },
-  { id: 'us-ny', top: '40.5%', left: '20.3%', label: 'New York - NY' },
+  { id: 'campinas', top: '74%', left: '32.8%', label: 'Campinas - SP' },
+  { id: 'jaguariuna', top: '72.8%', left: '33.3%', label: 'Jaguariúna - SP' },
 ];
 
 const MapSection: React.FC = () => {

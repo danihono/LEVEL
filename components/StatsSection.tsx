@@ -63,22 +63,23 @@ const StatsSection: React.FC = () => {
       <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
       <div className="max-w-[1400px] mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0 divide-y md:divide-y-0 md:divide-x divide-white/5">
-          <StatItem 
-            endValue={500} 
-            prefix="+" 
-            label={t('stats_students')} 
+          <StatItem
+            endValue={700}
+            prefix="+"
+            label={t('stats_students')}
             delay={100}
           />
           <StatItem
-            endValue={20}
+            endValue={25}
             prefix="+"
             suffix={language === 'PT' ? " ANOS" : language === 'ES' ? " AÑOS" : " YEARS"}
             label={t('stats_years')}
             delay={300}
           />
-          <StatItem 
-            endValue={120} 
-            label={t('stats_champs')} 
+          <StatItem
+            endValue={50}
+            prefix="+"
+            label={t('stats_champs')}
             delay={500}
           />
         </div>

@@ -18,9 +18,12 @@ const ActionCards: React.FC = () => {
               {t('action_affiliate_title')} <span className="text-brand-gold underline underline-offset-8 decoration-gold/50">{t('action_affiliate_span')}</span>
             </h2>
             <p className="text-zinc-500 mb-10 max-w-sm font-light leading-relaxed">{t('action_affiliate_desc')}</p>
-            <button className="bg-brand-gold hover:brightness-110 text-black px-10 py-4 text-[10px] font-black tracking-widest transition-all uppercase gold-glow">
+            <a
+              href="mailto:afiliado@leveljiujitsu.com.br?subject=Quero%20ser%20afiliado%20Level%20Jiu%20Jitsu"
+              className="inline-block bg-brand-gold hover:brightness-110 text-black px-10 py-4 text-[10px] font-black tracking-widest transition-all uppercase gold-glow"
+            >
                {t('nav_contact')}
-            </button>
+            </a>
           </div>
         </div>
 

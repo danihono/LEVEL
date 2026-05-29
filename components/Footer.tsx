@@ -38,7 +38,8 @@ const Footer: React.FC = () => {
           <div>
             <h5 className="font-black text-[9px] tracking-[0.5em] uppercase mb-10 text-brand-gold">{t('nav_contact').toUpperCase()}</h5>
             <p className="text-brand-gold text-sm font-bold tracking-widest mb-4">contato@leveljiujitsu.com.br</p>
-            <p className="text-zinc-500 text-xs font-light tracking-widest leading-loose">HEADQUARTER SÃO PAULO<br/>Avenida Paulista, 1000 - SP - Brasil</p>
+            <p className="text-brand-gold text-sm font-bold tracking-widest mb-4">afiliado@leveljiujitsu.com.br</p>
+            <p className="text-zinc-500 text-xs font-light tracking-widest leading-loose">MATRIZ — CAMPINAS<br/>SP - BRASIL</p>
           </div>
         </div>
         <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
