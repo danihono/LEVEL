@@ -33,13 +33,13 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-50 border-b transition-[background-color,backdrop-filter,box-shadow,border-color,padding] duration-500 px-6 md:px-12 py-4 md:py-6 ${
-        isScrolled ? 'bg-black/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3' : 'bg-transparent'
+      className={`fixed top-0 left-0 w-full z-50 border-b transition-[background-color,backdrop-filter,box-shadow,border-color,padding] duration-500 px-6 md:px-12 py-2 md:py-2.5 ${
+        isScrolled ? 'bg-black/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-1.5 md:py-2' : 'bg-transparent'
       }`}
       style={{ borderBottomColor: isScrolled ? 'rgba(197,160,40,0.12)' : 'transparent' }}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center group cursor-pointer h-24 md:h-28 w-[150px] md:w-[190px]">
+        <div className="flex items-center group cursor-pointer h-14 md:h-16 w-[110px] md:w-[140px]">
           <Logo 
             variant="light" 
             className="w-full h-full" 

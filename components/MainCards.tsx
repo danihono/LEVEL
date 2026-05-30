@@ -21,7 +21,7 @@ const founders = [
     name: 'ADRIANO RIBEIRO PIRES',
     birth: '1977-08-25',
     beltSince: '2001',
-    role: 'Fundador da Level e principal líder da equipe, responsável pela parte técnica.',
+    role: 'Fundador da Level Jiu Jitsu e principal líder da equipe, responsável pela parte técnica.',
     img: `${baseUrl}images/adriano.jpg`,
   },
   {
@@ -37,7 +37,7 @@ const methodologist = {
   name: 'ALBA IARA CAE RODRIGUES',
   birth: '1986-07-25',
   beltSince: '2025',
-  bio: 'Formada em Educação Física pela UFSCar e UniFAJ, Mestre em Educação Física pela Unicamp e Ph.D. em Educação com ênfase em Educação Física pela George Mason University. Especialista em formação profissional de treinadores e no desenvolvimento de métodos e currículos pedagógicos para atividades de combate. Responsável pela metodologia da Level.',
+  bio: 'Responsável pela metodologia da Level. Formada em Educação Física pela UFSCar e UniFAJ, Mestre em Educação Física pela Unicamp e Ph.D. em Educação com ênfase em Educação Física pela George Mason University. Especialista em formação profissional de treinadores e no desenvolvimento de métodos e currículos pedagógicos para atividades de combate.',
   img: `${baseUrl}images/alba.jpg`,
 };
 
@@ -68,7 +68,7 @@ const MainCards: React.FC = () => {
               onMouseEnter={() => setHoveredCard(idx)}
               onMouseLeave={() => setHoveredCard(null)}
             >
-              <div className="relative w-full h-[600px] perspective-1000 mb-8">
+              <div className="relative w-full h-[440px] perspective-1000 mb-8">
                 <div
                   className="relative w-full h-full transition-transform duration-700 preserve-3d"
                   style={{ transform: hoveredCard === idx ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
@@ -77,7 +77,7 @@ const MainCards: React.FC = () => {
                     <img
                       src={founder.img}
                       alt={founder.name}
-                      className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
+                      className="absolute inset-0 w-full h-full object-cover object-[center_45%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div className="absolute top-8 left-8">
@@ -127,7 +127,7 @@ const MainCards: React.FC = () => {
               onMouseEnter={() => setHoveredMethodologist(true)}
               onMouseLeave={() => setHoveredMethodologist(false)}
             >
-              <div className="relative w-full h-[600px] perspective-1000 mb-8">
+              <div className="relative w-full h-[400px] perspective-1000 mb-8">
                 <div
                   className="relative w-full h-full transition-transform duration-700 preserve-3d"
                   style={{ transform: hoveredMethodologist ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
@@ -136,7 +136,7 @@ const MainCards: React.FC = () => {
                     <img
                       src={methodologist.img}
                       alt={methodologist.name}
-                      className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
+                      className="absolute inset-0 w-full h-full object-cover object-[center_45%] scale-110 transition-transform duration-700 group-hover:scale-[1.18]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div className="absolute top-8 left-8">
@@ -161,7 +161,7 @@ const MainCards: React.FC = () => {
                         </div>
                       </div>
                       <div className="pt-3 border-t border-white/5">
-                        <p className="text-zinc-600 text-[9px] font-black uppercase tracking-widest mb-2">Função</p>
+                        <p className="text-zinc-600 text-[9px] font-black uppercase tracking-widest mb-2">Metodologista</p>
                         <p className="text-zinc-300 text-xs font-light leading-relaxed">{methodologist.bio}</p>
                       </div>
                     </div>

@@ -7,6 +7,7 @@ import MainCards from './components/MainCards';
 import ActionCards from './components/ActionCards';
 import UnitsSection from './components/UnitsSection';
 import StoreSection from './components/StoreSection';
+import AppSection from './components/AppSection';
 import MapSection from './components/MapSection';
 import StatsSection from './components/StatsSection';
 import FullMatImage from './components/FullMatImage';
@@ -58,6 +59,8 @@ const AppContent: React.FC = () => {
       <StatsSection />
       <BeltSeparator />
       <StoreSection />
+      <BeltSeparator />
+      <AppSection />
       <FullMatImage />
       <BeltSeparator />
       <Newsletter />

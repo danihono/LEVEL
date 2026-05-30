@@ -255,6 +255,20 @@ Object.assign(translations.PT, {
   about_value_5_desc: 'Evolu\u00e7\u00e3o n\u00e3o \u00e9 acaso, \u00e9 escolha di\u00e1ria. Cada pessoa \u00e9 respons\u00e1vel pela pr\u00f3pria jornada e pelo ambiente.',
 });
 
+Object.assign(translations.PT, {
+  app_kicker: 'APP LEVEL \u00b7 TREINO NA PALMA DA M\u00c3O',
+  app_title_prefix: 'Sua evolu\u00e7\u00e3o, agora',
+  app_title_gold: 'no seu bolso.',
+  app_desc: 'Acompanhe sua gradua\u00e7\u00e3o, treinos e presen\u00e7as direto pelo celular. O m\u00e9todo LEVEL guiando sua jornada, dentro e fora do tatame.',
+  app_btn_download: 'BAIXAR AGORA',
+  app_badge_appstore_top: 'Baixar na',
+  app_badge_appstore_main: 'App Store',
+  app_badge_play_top: 'Dispon\u00edvel no',
+  app_badge_play_main: 'Google Play',
+  app_chip_1: 'Treinos guiados',
+  app_chip_2: '4.9 \u2605 na loja',
+});
+
 translations.EN.hero_title_suffix = 'Jiu-Jitsu for Life';
 translations.EN.hero_desc = 'More than a place to train, an environment to evolve together.\nA place where Jiu-Jitsu develops people, on and off the mats.';
 
@@ -300,6 +314,20 @@ Object.assign(translations.EN, {
   about_value_5_desc: 'Evolution is not luck, it is a daily choice. Each person is responsible for their own journey and for the environment around them.',
 });
 
+Object.assign(translations.EN, {
+  app_kicker: 'LEVEL APP · TRAINING IN YOUR POCKET',
+  app_title_prefix: 'Your evolution, now',
+  app_title_gold: 'in your pocket.',
+  app_desc: 'Track your rank, training, and attendance straight from your phone. The LEVEL method guiding your journey, on and off the mats.',
+  app_btn_download: 'DOWNLOAD NOW',
+  app_badge_appstore_top: 'Download on the',
+  app_badge_appstore_main: 'App Store',
+  app_badge_play_top: 'Get it on',
+  app_badge_play_main: 'Google Play',
+  app_chip_1: 'Guided training',
+  app_chip_2: '4.9 ★ on the store',
+});
+
 translations.ES.hero_title_suffix = 'Jiu-Jitsu para la Vida';
 translations.ES.hero_desc = 'Mas que un lugar para entrenar, un ambiente para evolucionar juntos.\nUn ambiente donde el Jiu-Jitsu desarrolla personas, dentro y fuera del tatami.';
 
@@ -343,6 +371,20 @@ Object.assign(translations.ES, {
   about_value_4_desc: 'Perfeccionamiento continuo, construido en el proceso. Nada es est\u00e1tico; siempre evolucionamos.',
   about_value_5_title: 'Compromiso',
   about_value_5_desc: 'La evoluci\u00f3n no es casualidad, es una elecci\u00f3n diaria. Cada persona es responsable de su propio camino y del ambiente.',
+});
+
+Object.assign(translations.ES, {
+  app_kicker: 'APP LEVEL \u00b7 ENTRENAMIENTO EN TU MANO',
+  app_title_prefix: 'Tu evoluci\u00f3n, ahora',
+  app_title_gold: 'en tu bolsillo.',
+  app_desc: 'Sigue tu graduaci\u00f3n, entrenamientos y asistencias directo desde el m\u00f3vil. El m\u00e9todo LEVEL guiando tu camino, dentro y fuera del tatami.',
+  app_btn_download: 'DESCARGAR AHORA',
+  app_badge_appstore_top: 'Desc\u00e1rgalo en la',
+  app_badge_appstore_main: 'App Store',
+  app_badge_play_top: 'Disponible en',
+  app_badge_play_main: 'Google Play',
+  app_chip_1: 'Entrenamientos guiados',
+  app_chip_2: '4.9 \u2605 en la tienda',
 });
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
