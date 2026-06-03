@@ -8,7 +8,7 @@ const units = [
   { city: 'CAMPINAS', name: 'LEVEL CAMPINAS', img: '/images/campinas.jpeg' },
   { city: 'CAMPINAS', name: 'LEVEL MATRIZ', img: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop' },
   { city: 'CAMPINAS - CAMBUÍ', name: 'LEVEL CAMBUÍ', img: '/images/cambui.jpeg' },
-  { city: 'JAGUARIÚNA', name: 'LEVEL JAGUARIÚNA', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop' },
+  { city: 'JAGUARIÚNA', name: 'LEVEL JAGUARIÚNA', img: '/images/jaguariuna.png' },
 ];
 
 const UnitsSection: React.FC = () => {

@@ -122,7 +122,9 @@ const AppSection: React.FC = () => {
           {/* Botão principal */}
           <div className="reveal mt-8" style={{ transitionDelay: '400ms' }}>
             <a
-              href="#"
+              href="https://applevel-c5e73.web.app/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bb-btn inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-black tracking-[0.18em] text-white"
             >
               {t('app_btn_download')}
