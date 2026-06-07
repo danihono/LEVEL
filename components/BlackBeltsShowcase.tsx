@@ -109,7 +109,9 @@ const BlackBeltsShowcase: React.FC = () => {
                 {t('bb_hint')}
               </div>
               <a
-                href="#contato"
+                href="https://wa.me/5519974020100?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bb-btn inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm md:text-base font-semibold gold-glow reveal w-fit"
                 style={{ transitionDelay: '520ms' }}
               >

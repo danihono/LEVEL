@@ -17,12 +17,12 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks: { name: string; href: string; external?: boolean }[] = [
     { name: t('nav_home'), href: '#' },
     { name: t('nav_schools'), href: '#escolas' },
     { name: t('nav_team'), href: '#team' },
     { name: t('nav_store'), href: '#store' },
-    { name: t('nav_contact'), href: '#contato' },
+    { name: t('nav_contact'), href: 'https://wa.me/5519974020100?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu.', external: true },
   ];
 
   const languages: { code: Language; label: string }[] = [
@@ -55,6 +55,8 @@ const Navbar: React.FC = () => {
             <a
               key={link.name}
               href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
               className={`text-[10px] font-black tracking-[0.2em] transition-colors relative group ${
                 isScrolled ? 'text-white' : 'text-white/80 hover:text-white'
               }`}
@@ -130,6 +132,8 @@ const Navbar: React.FC = () => {
           <a
             key={link.name}
             href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
             onClick={() => setIsMenuOpen(false)}
             className="text-2xl font-bold text-white tracking-[0.2em] hover:text-[#C5A028]"
           >
