@@ -78,6 +78,7 @@ async function main() {
       user,
       password,
       secure,
+      secureOptions: { rejectUnauthorized: false },
     });
 
     console.log(`Uploading ${localDir} to ${remoteDir}...`);
