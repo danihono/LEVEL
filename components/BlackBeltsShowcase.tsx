@@ -1,69 +1,87 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
-
-type RankedItem = {
-  rank: number;
-  name: string;
-  subtitle: string;
-  photoUrl?: string;
-};
-
-const RankedAvatar: React.FC<{ name: string; photoUrl?: string }> = ({ name, photoUrl }) => {
-  const [failed, setFailed] = React.useState(false);
-
-  const getInitials = (fullName: string) => {
-    const parts = fullName.trim().split(/\s+/).filter(Boolean);
-    const first = parts[0]?.[0] ?? '';
-    const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? '' : '';
-    return (first + last).toUpperCase();
-  };
-
-  return (
-    <div className="relative w-12 h-12 rounded-full border border-[#C5A028]/25 bg-black/35 overflow-hidden shrink-0">
-      {photoUrl && !failed ? (
-        <img
-          src={photoUrl}
-          alt={name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-          onError={() => setFailed(true)}
-        />
-      ) : (
-        <div className="w-full h-full grid place-items-center font-black tracking-[0.12em] text-white/85">
-          {getInitials(name)}
-        </div>
-      )}
-      <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/40"></div>
-    </div>
-  );
-};
+import RankedAvatar from './RankedAvatar';
+import TeamRosterModal from './TeamRosterModal';
+import {
+  fetchPublicBelts,
+  getFallbackBelts,
+  sortBeltsBySeniority,
+  isoToBr,
+  PUBLIC_RANKING_LIMIT,
+  type Belt,
+} from '../lib/blackBelts';
 
 const BlackBeltsShowcase: React.FC = () => {
   const { t } = useLanguage();
   const baseUrl = import.meta.env.BASE_URL;
   const bgImage = `${baseUrl}images/tres.png`;
 
-  const ranked: RankedItem[] = Array.from({ length: 6 }, (_, i) => {
-    const rank = i + 1;
-    const photoUrl =
-      rank === 1
-        ? `${baseUrl}images/adriano.jpg`
-        : rank === 2
-          ? `${baseUrl}images/ricardo.jpg`
-          : rank === 3
-            ? `${baseUrl}images/alba.jpg`
-            : undefined;
+  // Fallback instantâneo (espelha o conteúdo atual): render sem flash e à prova de
+  // Firebase offline / sem config. É substituído pelos dados reais quando chegam.
+  const fallbackBelts = React.useMemo(
+    () => getFallbackBelts(baseUrl, t('bb_rank_name'), t('bb_rank_sub')),
+    [baseUrl, t],
+  );
 
-    return {
-      rank,
-      name: `${t('bb_rank_name')} ${rank}`,
-      subtitle: t('bb_rank_sub'),
-      photoUrl,
+  const [belts, setBelts] = React.useState<Belt[]>(fallbackBelts);
+  const [rosterOpen, setRosterOpen] = React.useState(false);
+  const sectionRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    let alive = true;
+    const loadBelts = () =>
+      fetchPublicBelts()
+        .then((rows) => {
+          if (alive && rows.length) setBelts(rows);
+        })
+        .catch(() => {
+          // Mantém o fallback — a seção nunca fica quebrada.
+        });
+
+    loadBelts();
+
+    // Re-busca ao voltar/focar a aba (ex.: depois de salvar no /#admin em outra aba),
+    // para refletir as mudanças sem precisar recarregar manualmente.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') loadBelts();
     };
-  });
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('focus', loadBelts);
+    return () => {
+      alive = false;
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('focus', loadBelts);
+    };
+  }, []);
+
+  // As linhas do ranking são trocadas quando os dados chegam (async). O observador global
+  // de reveal (em App.tsx) só observa o que existia na montagem, então as linhas novas
+  // ficariam travadas em opacidade 0. Este observador local re-observa sempre que `belts`
+  // muda, garantindo que as linhas reais apareçam.
+  React.useEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+      },
+      { threshold: 0.1 },
+    );
+    root.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [belts]);
+
+  // Ordena por antiguidade (faixa preta mais antiga primeiro) independentemente da fonte.
+  const activeBelts = sortBeltsBySeniority(belts.filter((b) => b.isActive));
+  const ranking = activeBelts.slice(0, PUBLIC_RANKING_LIMIT);
+  // Líder efetivo (mesma regra na home e no modal): o marcado; se ninguém, o #1.
+  const markedLeader = activeBelts.find((b) => b.isLeader);
+  const leaderId = markedLeader ? markedLeader.id : activeBelts[0]?.id;
 
   return (
-    <section id="team" className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
+    <section ref={sectionRef} id="team" className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-[30s] scale-105 grayscale-[0.18] brightness-[0.42] contrast-[1.05] opacity-95"
         style={{ backgroundImage: `url('${bgImage}')` }}
@@ -108,15 +126,14 @@ const BlackBeltsShowcase: React.FC = () => {
               <div className="text-white/65 text-sm reveal" style={{ transitionDelay: '460ms' }}>
                 {t('bb_hint')}
               </div>
-              <a
-                href="https://wa.me/5519974020100?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu."
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => setRosterOpen(true)}
                 className="bb-btn inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm md:text-base font-semibold gold-glow reveal w-fit"
                 style={{ transitionDelay: '520ms' }}
               >
                 {t('bb_cta')}
-              </a>
+              </button>
             </div>
           </div>
 
@@ -124,18 +141,20 @@ const BlackBeltsShowcase: React.FC = () => {
             <div className="rounded-3xl border border-[#C5A028]/18 bg-black/25 backdrop-blur-xl p-6 md:p-7">
               <div className="flex items-center justify-between reveal" style={{ transitionDelay: '220ms' }}>
                 <div className="text-xs tracking-[0.18em] uppercase text-white/70">{t('bb_ranking_title')}</div>
-                <div className="text-[10px] tracking-[0.18em] uppercase text-white/45">TOP 6</div>
+                <div className="text-[10px] tracking-[0.18em] uppercase text-white/45">TOP {PUBLIC_RANKING_LIMIT}</div>
               </div>
 
               <ol className="mt-5 flex flex-col">
-                {ranked.map((item, idx) => {
-                  const isTop = item.rank === 1;
+                {ranking.map((item, idx) => {
+                  // Destaque dourado/badge para o líder marcado; se ninguém foi marcado,
+                  // mantém o visual atual destacando o #1.
+                  const isLeader = item.id === leaderId;
                   return (
                     <li
-                      key={item.rank}
+                      key={item.id}
                       className={[
                         'group relative flex items-center gap-5 rounded-2xl border bg-black/20 px-5 py-4 md:px-6 md:py-5',
-                        isTop ? 'border-[#F1D592]/35 shadow-[0_0_45px_rgba(197,160,40,0.10)]' : 'border-[#C5A028]/16',
+                        isLeader ? 'border-[#F1D592]/35 shadow-[0_0_45px_rgba(197,160,40,0.10)]' : 'border-[#C5A028]/16',
                         idx === 0 ? '' : 'mt-3',
                         'hover:border-[#F1D592]/28 hover:bg-black/28 transition-[border-color,background-color] duration-300',
                         'reveal',
@@ -146,12 +165,12 @@ const BlackBeltsShowcase: React.FC = () => {
                         <div
                           className={[
                             'font-black tracking-tight leading-none',
-                            isTop ? 'text-4xl md:text-5xl text-brand-gold' : 'text-3xl md:text-4xl text-white/80',
+                            isLeader ? 'text-4xl md:text-5xl text-brand-gold' : 'text-3xl md:text-4xl text-white/80',
                           ].join(' ')}
                         >
-                          #{item.rank}
+                          #{idx + 1}
                         </div>
-                        {isTop && (
+                        {isLeader && (
                           <span className="mt-2 hidden sm:inline-flex w-fit items-center rounded-full border border-[#C5A028]/25 bg-black/35 px-3 py-1 text-[10px] tracking-[0.18em] uppercase text-white/75">
                             {t('bb_ranking_top')}
                           </span>
@@ -160,11 +179,16 @@ const BlackBeltsShowcase: React.FC = () => {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-4 min-w-0">
-                          <RankedAvatar name={item.name} photoUrl={item.photoUrl} />
+                          <RankedAvatar name={item.name} photoUrl={item.photoUrl || undefined} />
 
                           <div className="min-w-0">
                             <div className="text-base md:text-lg font-bold truncate">{item.name}</div>
-                            <div className="text-sm text-white/65 mt-0.5">{item.subtitle}</div>
+                            <div className="text-sm text-white/65 mt-0.5">
+                              {item.subtitle}
+                              {isoToBr(item.blackBeltDate) && (
+                                <span className="text-white/45"> · desde {isoToBr(item.blackBeltDate)}</span>
+                              )}
+                            </div>
                           </div>
                         </div>
                         <div className="mt-3 bb-belt"></div>
@@ -179,6 +203,8 @@ const BlackBeltsShowcase: React.FC = () => {
       </div>
 
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+
+      <TeamRosterModal open={rosterOpen} belts={activeBelts} leaderId={leaderId} onClose={() => setRosterOpen(false)} />
     </section>
   );
 };

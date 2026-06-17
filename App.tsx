@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutSection from './components/AboutSection';
@@ -71,10 +71,32 @@ const AppContent: React.FC = () => {
   );
 };
 
+// Painel de admin carregado sob demanda (só quando a URL tem #admin), pra não pesar
+// o site para os visitantes normais.
+const AdminApp = React.lazy(() => import('./components/admin/AdminApp'));
+
+const isAdminHash = () => window.location.hash.startsWith('#admin');
+
 const App: React.FC = () => {
+  const [isAdmin, setIsAdmin] = useState(isAdminHash);
+
+  useEffect(() => {
+    const onHash = () => setIsAdmin(isAdminHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
   return (
     <LanguageProvider>
-      <AppContent />
+      {isAdmin ? (
+        <Suspense
+          fallback={<div className="min-h-screen grid place-items-center bg-[#0b0b0b] text-white/55">Carregando…</div>}
+        >
+          <AdminApp />
+        </Suspense>
+      ) : (
+        <AppContent />
+      )}
     </LanguageProvider>
   );
 };
