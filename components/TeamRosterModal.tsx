@@ -81,12 +81,9 @@ const TeamRosterModal: React.FC<{
                   <RankedAvatar name={b.name} photoUrl={b.photoUrl || undefined} />
                   <div className="min-w-0 flex-1">
                     <div className="text-base md:text-lg font-bold truncate">{b.name}</div>
-                    <div className="text-sm text-white/65 mt-0.5">
-                      {b.subtitle}
-                      {isoToBr(b.blackBeltDate) && (
-                        <span className="text-white/45"> · desde {isoToBr(b.blackBeltDate)}</span>
-                      )}
-                    </div>
+                    {isoToBr(b.blackBeltDate) && (
+                      <div className="text-sm text-white/45 mt-0.5">desde {isoToBr(b.blackBeltDate)}</div>
+                    )}
                   </div>
                   {b.id === leaderId && (
                     <span className="hidden sm:inline-flex shrink-0 items-center rounded-full border border-[#C5A028]/25 bg-black/35 px-3 py-1 text-[10px] tracking-[0.18em] uppercase text-white/75">

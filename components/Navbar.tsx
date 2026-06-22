@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
     { name: t('nav_schools'), href: '#escolas' },
     { name: t('nav_team'), href: '#team' },
     { name: t('nav_store'), href: '#store' },
-    { name: t('nav_contact'), href: 'https://wa.me/5519974020100?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu.', external: true },
+    { name: t('nav_contact'), href: 'https://wa.me/5519974075861?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu.', external: true },
   ];
 
   const languages: { code: Language; label: string }[] = [

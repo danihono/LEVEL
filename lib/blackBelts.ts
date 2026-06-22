@@ -17,7 +17,6 @@ export type Belt = {
   id: string;
   position: number; // rank em cache (recalculado pela data ao salvar; 1 = topo)
   name: string;
-  subtitle: string;
   photoUrl: string; // vazio => mostra iniciais
   blackBeltDate: string; // data da faixa preta (YYYY-MM-DD); vazio => sem data
   isLeader: boolean; // badge "Lider" + destaque dourado
@@ -32,7 +31,6 @@ function mapDoc(id: string, data: Record<string, unknown>): Belt {
     id,
     position: Number.isFinite(p) ? p : 999,
     name: String(data.name ?? ''),
-    subtitle: String(data.subtitle ?? ''),
     photoUrl: String(data.photoUrl ?? ''),
     blackBeltDate: String(data.blackBeltDate ?? ''),
     isLeader: Boolean(data.isLeader),
@@ -93,7 +91,7 @@ export function maskBrDate(input: string): string {
  * Ranking fixo usado como fallback instantâneo (render sem flash) e quando o Firebase
  * não está disponível (offline / sem config). Espelha o conteúdo atual da seção.
  */
-export function getFallbackBelts(baseUrl: string, rankName: string, rankSub: string): Belt[] {
+export function getFallbackBelts(baseUrl: string, rankName: string): Belt[] {
   return Array.from({ length: 6 }, (_, i) => {
     const position = i + 1;
     const photoUrl =
@@ -108,7 +106,6 @@ export function getFallbackBelts(baseUrl: string, rankName: string, rankSub: str
       id: `fallback-${position}`,
       position,
       name: `${rankName} ${position}`,
-      subtitle: rankSub,
       photoUrl,
       blackBeltDate: '',
       isLeader: position === 1,
@@ -152,7 +149,6 @@ export async function saveBelts(belts: Belt[], removedIds: string[] = []): Promi
     const data: BeltData & { updatedAt: unknown } = {
       position: i + 1,
       name: b.name.trim(),
-      subtitle: b.subtitle.trim(),
       photoUrl: b.photoUrl || '',
       blackBeltDate: b.blackBeltDate || '',
       isLeader: !!b.isLeader,

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const WHATSAPP_URL = 'https://wa.me/5519974020100?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu.';
+const WHATSAPP_URL = 'https://wa.me/5519974075861?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Level%20Jiu%20Jitsu.';
 
 const WhatsAppButton: React.FC = () => {
   return (

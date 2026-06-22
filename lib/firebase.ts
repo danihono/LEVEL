@@ -30,7 +30,13 @@ export const firebaseReady = Boolean(firebaseConfig.apiKey && firebaseConfig.pro
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+// Banco Firestore NOMEADO e separado pro site (isolado do banco "(default)" do sistema).
+// Por que: o `firebase deploy` do sistema publica regras só do banco "(default)" — então
+// um banco nomeado próprio tem regras independentes que o deploy do sistema NÃO derruba.
+// Override por env; default 'site'. (O banco precisa ser criado no Console com esse mesmo id.)
+const firestoreDb = env.VITE_FIRESTORE_DB || 'site';
+
+export const db = getFirestore(app, firestoreDb);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 

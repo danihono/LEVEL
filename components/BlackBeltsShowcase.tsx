@@ -19,7 +19,7 @@ const BlackBeltsShowcase: React.FC = () => {
   // Fallback instantâneo (espelha o conteúdo atual): render sem flash e à prova de
   // Firebase offline / sem config. É substituído pelos dados reais quando chegam.
   const fallbackBelts = React.useMemo(
-    () => getFallbackBelts(baseUrl, t('bb_rank_name'), t('bb_rank_sub')),
+    () => getFallbackBelts(baseUrl, t('bb_rank_name')),
     [baseUrl, t],
   );
 
@@ -183,12 +183,11 @@ const BlackBeltsShowcase: React.FC = () => {
 
                           <div className="min-w-0">
                             <div className="text-base md:text-lg font-bold truncate">{item.name}</div>
-                            <div className="text-sm text-white/65 mt-0.5">
-                              {item.subtitle}
-                              {isoToBr(item.blackBeltDate) && (
-                                <span className="text-white/45"> · desde {isoToBr(item.blackBeltDate)}</span>
-                              )}
-                            </div>
+                            {isoToBr(item.blackBeltDate) && (
+                              <div className="text-sm text-white/45 mt-0.5">
+                                desde {isoToBr(item.blackBeltDate)}
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="mt-3 bb-belt"></div>

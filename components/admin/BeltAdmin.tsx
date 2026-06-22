@@ -12,6 +12,7 @@ import {
   PUBLIC_RANKING_LIMIT,
   type Belt,
 } from '../../lib/blackBelts';
+import { auth, ADMIN_EMAIL } from '../../lib/firebase';
 
 const BeltAdmin: React.FC = () => {
   const [belts, setBelts] = React.useState<Belt[]>([]);
@@ -77,7 +78,6 @@ const BeltAdmin: React.FC = () => {
         id,
         position: prev.length + 1,
         name: '',
-        subtitle: 'Faixa Preta',
         photoUrl: '',
         blackBeltDate: '',
         isLeader: false,
@@ -115,8 +115,18 @@ const BeltAdmin: React.FC = () => {
       await load();
       setSavedToast(true);
       window.setTimeout(() => setSavedToast(false), 2500);
-    } catch {
-      setSaveError('Não foi possível salvar. Verifique a conexão e tente de novo.');
+    } catch (err) {
+      const code = (err as { code?: string })?.code;
+      const loggedEmail = auth.currentUser?.email ?? '(não logado)';
+      console.error('[BeltAdmin] falha ao salvar:', err, '| logado como:', loggedEmail, '| esperado:', ADMIN_EMAIL);
+      if (code === 'permission-denied') {
+        setSaveError(
+          `Sem permissão. Você está logado como "${loggedEmail}" e a regra exige "${ADMIN_EMAIL}" — precisam ser idênticos.`,
+        );
+      } else {
+        const detail = code ? ` (${code})` : '';
+        setSaveError(`Não foi possível salvar${detail}. Verifique a conexão e tente de novo.`);
+      }
     } finally {
       setSaving(false);
     }
@@ -186,12 +196,6 @@ const BeltAdmin: React.FC = () => {
                   onChange={(e) => update(b.id, { name: e.target.value })}
                   placeholder="Nome"
                   className="w-full rounded-lg border border-[#C5A028]/20 bg-black/40 px-3 py-2 font-bold outline-none focus:border-[#F1D592]/50"
-                />
-                <input
-                  value={b.subtitle}
-                  onChange={(e) => update(b.id, { subtitle: e.target.value })}
-                  placeholder="Graduação (ex.: Faixa Preta 3º grau)"
-                  className="mt-2 w-full rounded-lg border border-[#C5A028]/15 bg-black/40 px-3 py-2 text-sm text-white/80 outline-none focus:border-[#F1D592]/40"
                 />
 
                 <div className="mt-2 flex flex-wrap items-center gap-2">
