@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutSection from './components/AboutSection';
@@ -15,27 +14,36 @@ import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import BeltSeparator from './components/BeltSeparator';
 import BlackBeltsShowcase from './components/BlackBeltsShowcase';
+import BlackBeltsPage from './components/BlackBeltsPage';
 import WhatsAppButton from './components/WhatsAppButton';
 import { LanguageProvider } from './context/LanguageContext';
 
 const AppContent: React.FC = () => {
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    }, observerOptions);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash || hash === '#' || hash.startsWith('#admin') || hash.startsWith('#faixas-pretas')) return;
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+    });
   }, []);
 
   return (
@@ -71,29 +79,35 @@ const AppContent: React.FC = () => {
   );
 };
 
-// Painel de admin carregado sob demanda (só quando a URL tem #admin), pra não pesar
-// o site para os visitantes normais.
 const AdminApp = React.lazy(() => import('./components/admin/AdminApp'));
 
-const isAdminHash = () => window.location.hash.startsWith('#admin');
+type AppRoute = 'site' | 'admin' | 'black-belts';
+
+const getAppRoute = (): AppRoute => {
+  if (window.location.hash.startsWith('#admin')) return 'admin';
+  if (window.location.hash.startsWith('#faixas-pretas')) return 'black-belts';
+  return 'site';
+};
 
 const App: React.FC = () => {
-  const [isAdmin, setIsAdmin] = useState(isAdminHash);
+  const [route, setRoute] = useState<AppRoute>(getAppRoute);
 
   useEffect(() => {
-    const onHash = () => setIsAdmin(isAdminHash());
+    const onHash = () => setRoute(getAppRoute());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
   return (
     <LanguageProvider>
-      {isAdmin ? (
+      {route === 'admin' ? (
         <Suspense
-          fallback={<div className="min-h-screen grid place-items-center bg-[#0b0b0b] text-white/55">Carregando…</div>}
+          fallback={<div className="min-h-screen grid place-items-center bg-[#0b0b0b] text-white/55">Carregando...</div>}
         >
           <AdminApp />
         </Suspense>
+      ) : route === 'black-belts' ? (
+        <BlackBeltsPage />
       ) : (
         <AppContent />
       )}

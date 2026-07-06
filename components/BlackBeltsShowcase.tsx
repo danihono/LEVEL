@@ -1,63 +1,16 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import RankedAvatar from './RankedAvatar';
-import TeamRosterModal from './TeamRosterModal';
-import {
-  fetchPublicBelts,
-  getFallbackBelts,
-  sortBeltsBySeniority,
-  isoToBr,
-  PUBLIC_RANKING_LIMIT,
-  type Belt,
-} from '../lib/blackBelts';
+import { isoToBr, PUBLIC_RANKING_LIMIT } from '../lib/blackBelts';
+import { usePublicBelts } from '../hooks/usePublicBelts';
 
 const BlackBeltsShowcase: React.FC = () => {
   const { t } = useLanguage();
   const baseUrl = import.meta.env.BASE_URL;
   const bgImage = `${baseUrl}images/tres.png`;
-
-  // Fallback instantâneo (espelha o conteúdo atual): render sem flash e à prova de
-  // Firebase offline / sem config. É substituído pelos dados reais quando chegam.
-  const fallbackBelts = React.useMemo(
-    () => getFallbackBelts(baseUrl, t('bb_rank_name')),
-    [baseUrl, t],
-  );
-
-  const [belts, setBelts] = React.useState<Belt[]>(fallbackBelts);
-  const [rosterOpen, setRosterOpen] = React.useState(false);
+  const { activeBelts, leaderId } = usePublicBelts(t('bb_rank_name'));
   const sectionRef = React.useRef<HTMLElement>(null);
 
-  React.useEffect(() => {
-    let alive = true;
-    const loadBelts = () =>
-      fetchPublicBelts()
-        .then((rows) => {
-          if (alive && rows.length) setBelts(rows);
-        })
-        .catch(() => {
-          // Mantém o fallback — a seção nunca fica quebrada.
-        });
-
-    loadBelts();
-
-    // Re-busca ao voltar/focar a aba (ex.: depois de salvar no /#admin em outra aba),
-    // para refletir as mudanças sem precisar recarregar manualmente.
-    const onVisible = () => {
-      if (document.visibilityState === 'visible') loadBelts();
-    };
-    document.addEventListener('visibilitychange', onVisible);
-    window.addEventListener('focus', loadBelts);
-    return () => {
-      alive = false;
-      document.removeEventListener('visibilitychange', onVisible);
-      window.removeEventListener('focus', loadBelts);
-    };
-  }, []);
-
-  // As linhas do ranking são trocadas quando os dados chegam (async). O observador global
-  // de reveal (em App.tsx) só observa o que existia na montagem, então as linhas novas
-  // ficariam travadas em opacidade 0. Este observador local re-observa sempre que `belts`
-  // muda, garantindo que as linhas reais apareçam.
   React.useEffect(() => {
     const root = sectionRef.current;
     if (!root) return;
@@ -71,14 +24,9 @@ const BlackBeltsShowcase: React.FC = () => {
     );
     root.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [belts]);
+  }, [activeBelts]);
 
-  // Ordena por antiguidade (faixa preta mais antiga primeiro) independentemente da fonte.
-  const activeBelts = sortBeltsBySeniority(belts.filter((b) => b.isActive));
   const ranking = activeBelts.slice(0, PUBLIC_RANKING_LIMIT);
-  // Líder efetivo (mesma regra na home e no modal): o marcado; se ninguém, o #1.
-  const markedLeader = activeBelts.find((b) => b.isLeader);
-  const leaderId = markedLeader ? markedLeader.id : activeBelts[0]?.id;
 
   return (
     <section ref={sectionRef} id="team" className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
@@ -126,14 +74,13 @@ const BlackBeltsShowcase: React.FC = () => {
               <div className="text-white/65 text-sm reveal" style={{ transitionDelay: '460ms' }}>
                 {t('bb_hint')}
               </div>
-              <button
-                type="button"
-                onClick={() => setRosterOpen(true)}
+              <a
+                href="#faixas-pretas"
                 className="bb-btn inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm md:text-base font-semibold gold-glow reveal w-fit"
                 style={{ transitionDelay: '520ms' }}
               >
                 {t('bb_cta')}
-              </button>
+              </a>
             </div>
           </div>
 
@@ -146,8 +93,6 @@ const BlackBeltsShowcase: React.FC = () => {
 
               <ol className="mt-5 flex flex-col">
                 {ranking.map((item, idx) => {
-                  // Destaque dourado/badge para o líder marcado; se ninguém foi marcado,
-                  // mantém o visual atual destacando o #1.
                   const isLeader = item.id === leaderId;
                   return (
                     <li
@@ -202,8 +147,6 @@ const BlackBeltsShowcase: React.FC = () => {
       </div>
 
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
-
-      <TeamRosterModal open={rosterOpen} belts={activeBelts} leaderId={leaderId} onClose={() => setRosterOpen(false)} />
     </section>
   );
 };

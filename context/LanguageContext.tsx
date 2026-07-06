@@ -396,6 +396,45 @@ Object.assign(translations.ES, {
   app_chip_2: '4.9 \u2605 en la tienda',
 });
 
+Object.assign(translations.PT, {
+  bb_page_back: 'Voltar para o site',
+  bb_page_title_prefix: 'Todos os',
+  bb_page_title_gold: 'faixas pretas LEVEL',
+  bb_page_desc: 'Conhe\u00e7a a lista completa dos faixas pretas ativos da LEVEL, organizada por antiguidade de gradua\u00e7\u00e3o.',
+  bb_page_total_label: 'Ativos',
+  bb_page_order_label: 'Ordem',
+  bb_page_card_rank: 'Faixa preta',
+  bb_page_since: 'desde',
+  bb_page_date_missing: 'Data em atualiza\u00e7\u00e3o',
+  bb_page_empty: 'Nenhum faixa preta cadastrado ainda.',
+});
+
+Object.assign(translations.EN, {
+  bb_page_back: 'Back to site',
+  bb_page_title_prefix: 'All LEVEL',
+  bb_page_title_gold: 'black belts',
+  bb_page_desc: 'Explore the complete list of active LEVEL black belts, ordered by black belt seniority.',
+  bb_page_total_label: 'Active',
+  bb_page_order_label: 'Order',
+  bb_page_card_rank: 'Black belt',
+  bb_page_since: 'since',
+  bb_page_date_missing: 'Date being updated',
+  bb_page_empty: 'No black belts registered yet.',
+});
+
+Object.assign(translations.ES, {
+  bb_page_back: 'Volver al sitio',
+  bb_page_title_prefix: 'Todos los',
+  bb_page_title_gold: 'cinturones negros LEVEL',
+  bb_page_desc: 'Conoce la lista completa de cinturones negros activos de LEVEL, organizada por antig\u00fcedad de graduaci\u00f3n.',
+  bb_page_total_label: 'Activos',
+  bb_page_order_label: 'Orden',
+  bb_page_card_rank: 'Cintur\u00f3n negro',
+  bb_page_since: 'desde',
+  bb_page_date_missing: 'Fecha en actualizaci\u00f3n',
+  bb_page_empty: 'Ning\u00fan cintur\u00f3n negro registrado todav\u00eda.',
+});
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

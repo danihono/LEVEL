@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Avatar com fallback para iniciais quando não há foto (ou a foto falha ao carregar).
-// Reutilizado no ranking (BlackBeltsShowcase), na lista completa (TeamRosterModal) e no painel admin.
+// Reutilizado no ranking (BlackBeltsShowcase), na pagina completa e no painel admin.
 const RankedAvatar: React.FC<{ name: string; photoUrl?: string; sizeClass?: string }> = ({
   name,
   photoUrl,
