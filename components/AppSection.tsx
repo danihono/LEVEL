@@ -92,7 +92,12 @@ const AppSection: React.FC = () => {
 
           {/* Badges das lojas */}
           <div className="reveal mt-10 flex flex-wrap items-center gap-4" style={{ transitionDelay: '320ms' }}>
-            <a href="#" className="app-badge group flex items-center gap-3 rounded-2xl px-5 py-3">
+            <a
+              href="https://applevel-c5e73.web.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="app-badge group flex items-center gap-3 rounded-2xl px-5 py-3"
+            >
               <svg viewBox="0 0 384 512" className="h-7 w-7 fill-white" aria-hidden="true">
                 <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
               </svg>
@@ -102,7 +107,12 @@ const AppSection: React.FC = () => {
               </span>
             </a>
 
-            <a href="#" className="app-badge group flex items-center gap-3 rounded-2xl px-5 py-3">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.leveljiujitsu.app&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="app-badge group flex items-center gap-3 rounded-2xl px-5 py-3"
+            >
               <svg viewBox="0 0 512 512" className="h-7 w-7" aria-hidden="true">
                 <path fill="#34A853" d="M48 59.5C42 65.8 38.5 75.5 38.5 88v336c0 12.5 3.5 22.2 9.5 28.5L256 256 48 59.5z" opacity="0" />
                 <path fill="#EA4335" d="M325.3 234.3 104.6 13.6l268 154.6-47.3 66.1z" />
