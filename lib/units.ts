@@ -21,11 +21,11 @@ export const units: Unit[] = [
     photos: ['/images/campinas-fachada.png', '/images/campinas.jpeg'],
   },
   {
-    id: 'matriz',
+    id: 'taquaral',
     city: 'CAMPINAS',
-    name: 'LEVEL MATRIZ',
-    address: CAMPINAS_ADDRESS,
-    photos: ['/images/campinas-fachada.png', '/images/campinas.jpeg'],
+    name: 'LEVEL TAQUARAL',
+    address: 'Av. Almeida Garret, 380',
+    photos: ['/images/almeidagarret.jpeg'],
   },
   {
     id: 'cambui',
