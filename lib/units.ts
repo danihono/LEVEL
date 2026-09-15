@@ -20,7 +20,7 @@ export const units: Unit[] = [
   {
     id: 'campinas',
     city: 'CAMPINAS',
-    name: 'LEVEL TAQUARAL',
+    name: 'LEVEL TAQUARAL CAMPINAS',
     address: CAMPINAS_ADDRESS,
     photos: ['/images/campinas-fachada.png', '/images/campinas.jpeg'],
     whatsapp: '5519996670777',
@@ -28,7 +28,7 @@ export const units: Unit[] = [
   {
     id: 'taquaral',
     city: 'CAMPINAS',
-    name: 'LEVEL TAQUARAL KIDS',
+    name: 'LEVEL KIDS TAQUARAL CAMPINAS',
     address: 'Av. Almeida Garret, 380',
     photos: ['/images/almeidagarret.jpeg'],
     whatsapp: '5519996670777',
