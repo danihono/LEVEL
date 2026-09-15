@@ -15,7 +15,6 @@ import Footer from './components/Footer';
 import BeltSeparator from './components/BeltSeparator';
 import BlackBeltsShowcase from './components/BlackBeltsShowcase';
 import BlackBeltsPage from './components/BlackBeltsPage';
-import WhatsAppButton from './components/WhatsAppButton';
 import { LanguageProvider } from './context/LanguageContext';
 
 const AppContent: React.FC = () => {
@@ -74,7 +73,6 @@ const AppContent: React.FC = () => {
       <BeltSeparator />
       <Newsletter />
       <Footer />
-      <WhatsAppButton />
     </div>
   );
 };
