@@ -1,7 +1,8 @@
 
 import React, { useMemo, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { units, mapsUrl } from '../lib/units';
+import { units, mapsUrl, whatsappUrl } from '../lib/units';
+import WhatsAppIcon from './WhatsAppIcon';
 
 const mapPoints = [
   { id: 'campinas', top: '74%', left: '32.8%', label: 'Campinas - SP' },
@@ -57,20 +58,36 @@ const MapSection: React.FC = () => {
                 <p className="text-zinc-500 font-light text-sm py-4">{t('map_no_results')}</p>
               ) : (
                 results.map((u) => (
-                  <a
+                  <div
                     key={u.id}
-                    href={mapsUrl(u.address)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block bg-[#0d0d0d] border border-white/10 hover:border-brand-gold transition-colors p-5 group/result"
+                    className="relative block bg-[#0d0d0d] border border-white/10 hover:border-brand-gold transition-colors p-5 group/result"
                   >
+                    <a
+                      href={mapsUrl(u.address)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${u.name} — ${t('map_open_maps')}`}
+                      className="absolute inset-0 z-10"
+                    ></a>
                     <p className="text-[8px] font-black tracking-[0.4em] text-brand-gold mb-2">{u.city}</p>
                     <h4 className="text-white font-bold text-sm tracking-tight">{u.name}</h4>
                     <p className="text-zinc-400 font-light text-xs mt-1 leading-relaxed">{u.address}</p>
-                    <span className="inline-block mt-3 text-[9px] font-black tracking-[0.25em] uppercase text-brand-gold group-hover/result:brightness-125">
-                      {t('map_open_maps')} →
-                    </span>
-                  </a>
+                    <div className="mt-3 flex items-center justify-between gap-4">
+                      <span className="text-[9px] font-black tracking-[0.25em] uppercase text-brand-gold group-hover/result:brightness-125">
+                        {t('map_open_maps')} →
+                      </span>
+                      <a
+                        href={whatsappUrl(u.whatsapp)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${t('unit_whatsapp')} — ${u.name}`}
+                        title={`${t('unit_whatsapp')} — ${u.name}`}
+                        className="relative z-20 flex items-center justify-center w-8 h-8 shrink-0 rounded-full bg-[#25D366] hover:scale-110 transition-transform duration-300"
+                      >
+                        <WhatsAppIcon className="w-4 h-4 text-white" />
+                      </a>
+                    </div>
+                  </div>
                 ))
               )}
             </div>
