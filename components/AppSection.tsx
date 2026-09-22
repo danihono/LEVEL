@@ -93,7 +93,7 @@ const AppSection: React.FC = () => {
           {/* Badges das lojas */}
           <div className="reveal mt-10 flex flex-wrap items-center gap-4" style={{ transitionDelay: '320ms' }}>
             <a
-              href="https://applevel-c5e73.web.app/"
+              href="https://apps.apple.com/br/app/level-jiu-jitsu/id6806887735"
               target="_blank"
               rel="noopener noreferrer"
               className="app-badge group flex items-center gap-3 rounded-2xl px-5 py-3"
