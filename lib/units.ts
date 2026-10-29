@@ -2,7 +2,7 @@
 // fachada (mostrada parada) e as demais (tatame, interior...) aparecem ao passar
 // o mouse. Para adicionar mais fotos a uma unidade, basta colocar o arquivo em
 // public/images/ e incluir o caminho no array `photos`.
-// Obs.: o id 'campinas' é legado — a unidade hoje se chama LEVEL TAQUARAL.
+// Obs.: o id 'campinas' é legado — a unidade hoje se chama LEVEL MATRIZ TAQUARAL.
 export interface Unit {
   id: string;
   city: string;
@@ -20,7 +20,7 @@ export const units: Unit[] = [
   {
     id: 'campinas',
     city: 'CAMPINAS',
-    name: 'LEVEL TAQUARAL CAMPINAS',
+    name: 'LEVEL MATRIZ TAQUARAL CAMPINAS',
     address: CAMPINAS_ADDRESS,
     photos: ['/images/campinas-fachada.png', '/images/campinas.jpeg'],
     whatsapp: '5519996670777',
@@ -28,7 +28,7 @@ export const units: Unit[] = [
   {
     id: 'taquaral',
     city: 'CAMPINAS',
-    name: 'LEVEL KIDS TAQUARAL CAMPINAS',
+    name: 'LEVEL TAQUARAL CAMPINAS',
     address: 'Av. Almeida Garret, 380',
     photos: ['/images/almeidagarret.jpeg'],
     whatsapp: '5519996670777',
